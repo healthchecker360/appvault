@@ -5,22 +5,36 @@
 // ============================================================
 
 // Your published Google Sheet ID (already set for you)
-var PUBLISHED_ID = "2PACX-1vRkjvF_IDe4Tsx4d-9EOCojAYqd7H2NYz1tRJ6EQ74rqbz1Lsc5wkEVkeSEpYyWk3Es7lHWA6sFi7Zv";
+var PUBLISHED_ID = "2PACX-1vQPjg8IQf1RbZKI7otVmfFjMWSchA6rmPJCvL20Wa29WKs1oP8AmTix5KTjTR6Efcd5QYBUbcZnDYyp";
+var PUBLISHED_BASE = "https://docs.google.com/spreadsheets/d/e/" + PUBLISHED_ID;
 
 // These build the URLs for each tab
-// When you published your sheet, Google assigned tab IDs.
-// Tab 1 (Apps) = gid 0, Tab 2 (Versions) = gid 1 by default.
-// If your Versions tab does not load, come back here and I will fix it.
-function getTabURL(gid) {
-  return "https://docs.google.com/spreadsheets/d/e/" + PUBLISHED_ID + "/pub?gid=" + gid + "&single=true&output=csv";
+// The published Apps sheet uses the new base CSV link.
+// Versions are still fetched by their published tab gid.
+var sheetGids = {
+  apps: 0,
+  versions: 1286505322
+};
+
+function getAppsURL() {
+  return PUBLISHED_BASE + "/pub?output=csv";
 }
 
-// Cache so we only fetch once per page load
+function getTabURL(gid) {
+  return PUBLISHED_BASE + "/pub?gid=" + gid + "&single=true&output=csv";
+}
+
 var appsCache = null;
 var versionsCache = null;
 
-// Converts raw CSV text into usable objects
+function isHTML(text) {
+  if (!text) return false;
+  var first = text.trim().slice(0, 16).toLowerCase();
+  return first.indexOf("<!doctype") === 0 || first.indexOf("<html") === 0;
+}
+
 function parseCSV(csvText) {
+  if (!csvText || isHTML(csvText)) return [];
   var lines = csvText.trim().split("\n");
   if (lines.length < 2) return [];
 
@@ -55,27 +69,79 @@ function parseCSV(csvText) {
   });
 }
 
-// Fetch Apps tab (gid=0 = first tab)
+// Fetch Apps tab
 async function getApps() {
   if (appsCache) return appsCache;
   try {
-    var res = await fetch(getTabURL(0));
+    var res = await fetch(getAppsURL());
     var text = await res.text();
     appsCache = parseCSV(text);
     return appsCache;
   } catch (e) {
-    console.error("AppVault: Failed to load Apps tab.", e);
+    console.error("AppVault: Failed to load Apps sheet.", e);
     return [];
   }
 }
 
-// Fetch Versions tab (gid=1 = second tab)
+async function fetchTabText(gid) {
+  try {
+    var res = await fetch(getTabURL(gid));
+    return await res.text();
+  } catch (e) {
+    return "";
+  }
+}
+
+async function getPublishedGids() {
+  try {
+    var res = await fetch(PUBLISHED_BASE + "/pubhtml");
+    var html = await res.text();
+    var matches = html.match(/gid=([0-9]+)/g) || [];
+    return [...new Set(matches.map(function(m) {
+      return parseInt(m.replace("gid=", ""), 10);
+    }).filter(function(n) {
+      return !isNaN(n);
+    }))];
+  } catch (e) {
+    return [];
+  }
+}
+
+async function findVersionsGid() {
+  var candidateGids = await getPublishedGids();
+  if (candidateGids.length === 0) {
+    for (var i = 0; i <= 20; i++) candidateGids.push(i);
+  }
+  candidateGids = candidateGids.filter(function(gid) { return gid !== sheetGids.apps; });
+
+  for (var j = 0; j < candidateGids.length; j++) {
+    var gid = candidateGids[j];
+    var text = await fetchTabText(gid);
+    var rows = parseCSV(text);
+    if (rows.length > 0 && rows[0].app_id !== undefined) {
+      console.info("AppVault: detected Versions tab gid=" + gid);
+      sheetGids.versions = gid;
+      return gid;
+    }
+  }
+
+  return sheetGids.versions;
+}
+
+// Fetch Versions tab
 async function getVersions() {
   if (versionsCache) return versionsCache;
   try {
-    var res = await fetch(getTabURL(1));
-    var text = await res.text();
-    versionsCache = parseCSV(text);
+    var text = await fetchTabText(sheetGids.versions);
+    var versions = parseCSV(text);
+    if (versions.length === 0 || versions[0].app_id === undefined) {
+      var detected = await findVersionsGid();
+      if (detected !== sheetGids.versions) {
+        text = await fetchTabText(detected);
+        versions = parseCSV(text);
+      }
+    }
+    versionsCache = versions;
     return versionsCache;
   } catch (e) {
     console.error("AppVault: Failed to load Versions tab.", e);

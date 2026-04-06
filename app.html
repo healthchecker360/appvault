@@ -106,9 +106,7 @@ async function loadAppPage() {
     document.getElementById("pageDesc").setAttribute("content", "Download " + app.name + " APK free. Latest version and all old versions. No registration. Direct download links.");
 
     // --- APP HEADER ---
-    var iconHTML = app.icon
-      ? '<img class="app-page-icon" src="' + app.icon + '" alt="' + app.name + '" onerror="this.outerHTML=\'<div class=app-page-icon-fallback>' + app.name.charAt(0) + '</div>\'">'
-      : '<div class="app-page-icon-fallback">' + app.name.charAt(0) + '</div>';
+    var iconHTML = getAppIconHTML(app, 'app-page-icon', 'app-page-icon-fallback');
 
     var platformBadge = isAndroid
       ? '<span class="badge badge-android">Android APK</span>'
@@ -116,6 +114,7 @@ async function loadAppPage() {
 
     var shareText = encodeURIComponent("Download " + app.name + " APK free on AppVault! " + window.location.href);
     var whatsappURL = "https://wa.me/?text=" + shareText;
+    var versions = await window.AppVaultDB.getVersionsForApp(id);
 
     document.getElementById("appHeader").innerHTML =
       '<div class="app-page-header">'
@@ -131,7 +130,9 @@ async function loadAppPage() {
       + '<span class="badge badge-free">Free</span>'
       + '</div>'
       + '<div class="app-page-actions">'
-      + '<a href="#versions" class="btn btn-primary btn-lg">&#8595; Download</a>'
+      + (versions.length > 0 && versions[0].download_url
+          ? '<a href="' + versions[0].download_url + '" target="_blank" class="btn btn-success btn-lg">&#8681; Free Download</a>'
+          : '<a href="#versions" class="btn btn-primary btn-lg">&#8595; View Versions</a>')
       + '<a href="' + whatsappURL + '" target="_blank" class="btn btn-whatsapp">&#128172; Share</a>'
       + '<a href="apps-like.html?id=' + app.id + '" class="btn btn-secondary">Similar Apps</a>'
       + '</div>'
@@ -146,7 +147,7 @@ async function loadAppPage() {
       + '</div>';
 
     // --- VERSIONS TABLE ---
-    var versions = await window.AppVaultDB.getVersionsForApp(id);
+    versions = versions || await window.AppVaultDB.getVersionsForApp(id);
     if (versions.length > 0) {
       var tableRows = versions.map(function(v, i) {
         var dlBtn = v.download_url

@@ -15,10 +15,30 @@ function showToast(message, type) {
   setTimeout(function() { toast.remove(); }, 3000);
 }
 
+function normalizeIconUrl(icon) {
+  if (!icon || typeof icon !== "string") return "";
+  var url = icon.trim();
+  if (!url) return "";
+  if (url.indexOf("//") === 0) {
+    return window.location.protocol === "file:" ? "https:" + url : window.location.protocol + url;
+  }
+  return url;
+}
+
+function getAppIconHTML(app, className, fallbackClass) {
+  var iconUrl = normalizeIconUrl(app.icon);
+  var initial = (app.name || "").charAt(0) || "?";
+  var escapedAlt = String(app.name || "").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  var escapedInitial = String(initial).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  if (iconUrl) {
+    return '<img class="' + className + '" src="' + iconUrl + '" alt="' + escapedAlt + '" onerror="this.style.display=\'none\';var f=document.createElement(\'div\');f.className=\'' + fallbackClass + '\';f.textContent=\'' + escapedInitial + '\';this.parentNode.insertBefore(f,this.nextSibling);">';
+  }
+  return '<div class="' + fallbackClass + '">' + escapedInitial + '</div>';
+}
+
 function buildAppCard(app) {
-  var iconHTML = app.icon
-    ? '<img class="app-card-icon" src="' + app.icon + '" alt="' + app.name + '" onerror="this.outerHTML=\'<div class=app-card-icon-fallback>' + app.name.charAt(0) + '</div>\'">'
-    : '<div class="app-card-icon-fallback">' + app.name.charAt(0) + '</div>';
+  var iconHTML = getAppIconHTML(app, 'app-card-icon', 'app-card-icon-fallback');
 
   var platform = (app.platform || "android").toLowerCase();
   var platformBadge = platform === "windows"
