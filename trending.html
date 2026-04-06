@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trending Apps This Week — Most Downloaded | AppVault</title>
+  <meta name="description" content="Discover the most popular and trending Android APK and Windows software this week on AppVault. Updated weekly.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search"><span class="search-icon">&#128269;</span><input type="text" id="navSearch" placeholder="Search apps..."></div>
+    <nav class="navbar-nav"><a href="index.html">Home</a><a href="android.html">Android</a><a href="windows.html">Windows</a><a href="categories.html">Categories</a><a href="trending.html" class="active">Trending</a></nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu"><a href="index.html">Home</a><a href="android.html">Android</a><a href="windows.html">Windows</a><a href="trending.html">Trending</a></div>
+</nav>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<div class="container" style="padding-top:32px;padding-bottom:48px;">
+  <div class="trending-header">
+    <h1 style="font-size:32px;">&#128293; Trending <span style="color:var(--accent2);">This Week</span></h1>
+    <span class="trending-badge">Updated Weekly</span>
+  </div>
+  <p style="color:var(--text2);margin-bottom:32px;">The most downloaded and popular apps right now.</p>
+
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+
+  <!-- TOP 3 PODIUM -->
+  <div id="top3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-bottom:32px;"></div>
+
+  <h2 style="font-size:20px;margin-bottom:16px;">&#128200; Full Rankings</h2>
+  <div id="trendingList"></div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom"><div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content.</div></div></div></footer>
+
+<script src="sheets-loader.js"></script>
+<script src="main.js"></script>
+<script>
+async function loadTrending() {
+  showLoading("trendingList");
+  try {
+    var apps = await window.AppVaultDB.getTopDownloadedApps(20);
+    if (apps.length === 0) { showEmpty("trendingList", "No apps yet — check back soon!"); return; }
+
+    // Top 3 podium cards
+    var medals = ["&#129351;", "&#129352;", "&#129353;"];
+    var top3HTML = apps.slice(0, 3).map(function(app, i) {
+      var iconHTML = app.icon
+        ? '<img src="' + app.icon + '" style="width:56px;height:56px;border-radius:12px;object-fit:cover;" alt="' + app.name + '">'
+        : '<div style="width:56px;height:56px;border-radius:12px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--accent2);">' + app.name.charAt(0) + '</div>';
+      return '<div style="background:var(--bg2);border:1px solid var(--border' + (i===0?'2':'') + ');border-radius:var(--radius-lg);padding:20px;cursor:pointer;" onclick="window.location.href=\'app.html?id=' + app.id + '\'">'
+        + '<div style="font-size:28px;margin-bottom:8px;">' + medals[i] + '</div>'
+        + '<div style="display:flex;gap:12px;align-items:center;">'
+        + iconHTML
+        + '<div><div style="font-family:var(--font-head);font-size:16px;font-weight:700;">' + app.name + '</div>'
+        + '<div style="font-size:12px;color:var(--text3);">&#8595; ' + (app.downloads || "N/A") + ' downloads</div>'
+        + '<div style="font-size:12px;color:var(--text3);margin-top:2px;">&#9733; ' + (app.rating || "N/A") + '</div></div>'
+        + '</div></div>';
+    }).join("");
+    document.getElementById("top3").innerHTML = top3HTML;
+
+    // Full ranked list
+    var listHTML = apps.map(function(app, i) {
+      var shareText = encodeURIComponent("Download " + app.name + " APK free on AppVault! " + window.location.origin + "/app.html?id=" + app.id);
+      return '<div style="display:flex;align-items:center;gap:16px;padding:14px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:8px;cursor:pointer;transition:all 0.2s;" onclick="window.location.href=\'app.html?id=' + app.id + '\'">'
+        + '<div class="trending-rank' + (i < 3 ? ' top3' : '') + '">#' + (i+1) + '</div>'
+        + (app.icon ? '<img src="' + app.icon + '" style="width:44px;height:44px;border-radius:10px;object-fit:cover;flex-shrink:0;" alt="' + app.name + '">' : '<div style="width:44px;height:44px;border-radius:10px;background:var(--bg4);display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:18px;font-weight:800;color:var(--accent2);flex-shrink:0;">' + app.name.charAt(0) + '</div>')
+        + '<div style="flex:1;min-width:0;">'
+        + '<div style="font-family:var(--font-head);font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + app.name + '</div>'
+        + '<div style="font-size:12px;color:var(--text3);">' + (app.category || "") + ' &bull; ' + (app.platform || "android") + '</div>'
+        + '</div>'
+        + '<div style="text-align:right;flex-shrink:0;">'
+        + '<div style="font-size:13px;color:var(--text2);">&#8595; ' + (app.downloads || "—") + '</div>'
+        + '<div style="font-size:12px;color:var(--warning);">&#9733; ' + (app.rating || "—") + '</div>'
+        + '</div>'
+        + '<a href="https://wa.me/?text=' + shareText + '" target="_blank" onclick="event.stopPropagation()" style="background:rgba(37,211,102,0.1);color:#25d366;padding:6px 10px;border-radius:8px;font-size:13px;flex-shrink:0;">&#128172;</a>'
+        + '</div>';
+    }).join("");
+
+    document.getElementById("trendingList").innerHTML = listHTML;
+
+  } catch(e) {
+    showError("trendingList", "Could not load trending apps.");
+  }
+}
+
+loadTrending();
+</script>
+</body>
+</html>
