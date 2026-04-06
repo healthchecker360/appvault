@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Android APK Free — Latest & Old Versions | AppVault</title>
+  <meta name="description" content="Download free Android APK files. All categories, latest and old versions. Safe direct download links, no registration required.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="navSearch" placeholder="Search apps...">
+    </div>
+    <nav class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="android.html" class="active">Android</a>
+      <a href="windows.html">Windows</a>
+      <a href="categories.html">Categories</a>
+      <a href="trending.html">Trending</a>
+    </nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu">
+    <a href="index.html">Home</a><a href="android.html">Android</a><a href="windows.html">Windows</a>
+    <a href="categories.html">Categories</a><a href="trending.html">Trending</a><a href="request.html">Request App</a>
+  </div>
+</nav>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<div class="container" style="padding-top:32px;">
+  <h1 style="font-size:32px;margin-bottom:8px;">Android APK Downloads</h1>
+  <p style="color:var(--text2);margin-bottom:24px;">Free APK files. Latest and old versions available for all Android devices.</p>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="filterApps('all',this)">All</button>
+    <button class="filter-btn" onclick="filterApps('social',this)">Social</button>
+    <button class="filter-btn" onclick="filterApps('tools',this)">Tools</button>
+    <button class="filter-btn" onclick="filterApps('games',this)">Games</button>
+    <button class="filter-btn" onclick="filterApps('video',this)">Video</button>
+    <button class="filter-btn" onclick="filterApps('music',this)">Music</button>
+    <button class="filter-btn" onclick="filterApps('education',this)">Education</button>
+  </div>
+
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+
+  <div id="appGrid" class="app-grid"></div>
+  <div id="adAfterCards"></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content. All links point to third-party storage.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="sheets-loader.js"></script>
+<script src="main.js"></script>
+<script>
+var allAndroidApps = [];
+var currentFilter = "all";
+
+async function loadApps() {
+  showLoading("appGrid");
+  try {
+    var apps = await window.AppVaultDB.getAppsByPlatform("android");
+    allAndroidApps = apps;
+    renderGrid(apps);
+  } catch(e) {
+    showError("appGrid");
+  }
+}
+
+function renderGrid(apps) {
+  if (apps.length === 0) { showEmpty("appGrid", "No apps found in this category"); return; }
+  var html = "";
+  apps.forEach(function(app, i) {
+    html += buildAppCard(app);
+    // Insert ad after every 8 cards
+    if ((i+1) % 8 === 0) {
+      html += '<div class="ad-slot ad-slot-banner" style="grid-column:1/-1;">Advertisement</div>';
+    }
+  });
+  document.getElementById("appGrid").innerHTML = html;
+}
+
+function filterApps(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+  btn.classList.add("active");
+  if (cat === "all") { renderGrid(allAndroidApps); }
+  else { renderGrid(allAndroidApps.filter(function(a){ return (a.category||"").toLowerCase() === cat; })); }
+}
+
+loadApps();
+</script>
+</body>
+</html>
