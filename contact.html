@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact AppVault — Report Issues & Get Help</title>
+  <meta name="description" content="Contact AppVault team. Report broken links, request apps, or get help. We respond within 24 hours.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search"><span class="search-icon">&#128269;</span><input type="text" id="navSearch" placeholder="Search apps..."></div>
+    <nav class="navbar-nav"><a href="index.html">Home</a><a href="android.html">Android</a><a href="contact.html" class="active">Contact</a></nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu"><a href="index.html">Home</a><a href="android.html">Android</a><a href="contact.html">Contact</a></div>
+</nav>
+
+<div class="container static-page">
+  <h1>Contact <span style="color:var(--accent2);">Us</span></h1>
+  <p class="lead">We are here to help. Reach out for any reason — broken links, app requests, or general questions.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;flex-wrap:wrap;">
+
+    <!-- Quick options -->
+    <div>
+      <h2 style="margin-bottom:16px;">Quick Options</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="request.html" style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:28px;">&#128230;</div>
+          <div><div style="font-family:var(--font-head);font-weight:700;color:var(--text);margin-bottom:2px;">Request an App</div><div style="font-size:13px;color:var(--text3);">Ask us to add a specific app</div></div>
+        </a>
+        <a href="dmca.html" style="display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:28px;">&#9878;</div>
+          <div><div style="font-family:var(--font-head);font-weight:700;color:var(--text);margin-bottom:2px;">DMCA / Copyright</div><div style="font-size:13px;color:var(--text3);">Report a copyright concern</div></div>
+        </a>
+      </div>
+
+      <h2 style="margin:28px 0 12px;">Response Time</h2>
+      <p style="color:var(--text2);font-size:14px;">We read every message and respond within 24-48 hours. For broken download links, we usually fix them within a few hours.</p>
+    </div>
+
+    <!-- Contact form (Google Form embed or mailto) -->
+    <div>
+      <h2 style="margin-bottom:16px;">Send a Message</h2>
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" id="contactName" placeholder="Ali Hassan">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subject</label>
+          <select class="form-input" id="contactSubject">
+            <option value="">Select a topic...</option>
+            <option value="Broken download link">Broken download link</option>
+            <option value="App request">App request</option>
+            <option value="DMCA / Copyright issue">DMCA / Copyright issue</option>
+            <option value="General question">General question</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-input" id="contactMessage" placeholder="Describe your issue or question..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="sendMessage()">&#10148; Send Message</button>
+        <p style="font-size:12px;color:var(--text3);margin-top:12px;text-align:center;">This will open your email app. Alternatively, use our <a href="request.html">app request form</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom"><div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content.</div></div></div></footer>
+
+<script src="main.js"></script>
+<script>
+function sendMessage() {
+  var name = document.getElementById("contactName").value.trim();
+  var subject = document.getElementById("contactSubject").value;
+  var message = document.getElementById("contactMessage").value.trim();
+  if (!subject || !message) { showToast("Please fill in subject and message.", "error"); return; }
+  var body = encodeURIComponent("Name: " + (name || "Not provided") + "\n\n" + message);
+  var sub = encodeURIComponent("[AppVault] " + subject);
+  // Replace YOUR_EMAIL below with your actual email address
+  window.location.href = "mailto:YOUR_EMAIL@gmail.com?subject=" + sub + "&body=" + body;
+}
+</script>
+</body>
+</html>
