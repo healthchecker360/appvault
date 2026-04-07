@@ -46,6 +46,7 @@
     <button class="filter-btn" onclick="filterApps('music',this)">Music</button>
     <button class="filter-btn" onclick="filterApps('education',this)">Education</button>
   </div>
+  <div id="sortBar"></div>
 
   <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
 
@@ -69,10 +70,12 @@ var currentFilter = "all";
 
 async function loadApps() {
   showLoading("appGrid");
+  addSortControls('sortBar');
   try {
     var apps = await window.AppVaultDB.getAppsByPlatform("android");
     allAndroidApps = apps;
-    renderGrid(apps);
+    window.currentApps = apps;
+    renderGrid(filterAndSortApps(apps));
   } catch(e) {
     showError("appGrid");
   }
@@ -95,8 +98,9 @@ function filterApps(cat, btn) {
   currentFilter = cat;
   document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
   btn.classList.add("active");
-  if (cat === "all") { renderGrid(allAndroidApps); }
-  else { renderGrid(allAndroidApps.filter(function(a){ return (a.category||"").toLowerCase() === cat; })); }
+  var filtered = cat === "all" ? allAndroidApps : allAndroidApps.filter(function(a){ return (a.category||"").toLowerCase() === cat; });
+  window.currentApps = filtered;
+  renderGrid(filterAndSortApps(filtered));
 }
 
 loadApps();
