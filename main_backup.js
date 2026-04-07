@@ -395,14 +395,3 @@ document.addEventListener("DOMContentLoaded", function() {
   initThemeToggle();
   setFooterYear();
 });
-
-function createAppCard(app) {
-  return `
-    <div class="app-card">
-      <img src="${app.icon}" alt="${app.name}">
-      <h3>${app.name}</h3>
-      <button class="download-btn">Get</button>
-    </div>
-  `;
-}
-
