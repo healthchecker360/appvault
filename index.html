@@ -107,6 +107,9 @@
   <div id="latestApps" class="app-grid"></div>
 </section>
 
+<div id="favoriteSection"></div>
+<div id="recentSection"></div>
+
 <!-- AD SLOT: Bottom -->
 <div class="container">
   <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
@@ -182,6 +185,10 @@ document.addEventListener("DOMContentLoaded", async function() {
     } else {
       showEmpty("latestApps", "No apps added yet");
     }
+
+    // Favorites and recent views
+    showFavoriteApps('favoriteSection');
+    showRecentAppsSection('recentSection');
 
   } catch(e) {
     showError("featuredApps", "Could not load apps. Please refresh.");

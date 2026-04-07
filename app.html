@@ -49,6 +49,8 @@
 <div class="container" id="permissionsSection"></div>
 
 <!-- SIMILAR APPS -->
+<div class="container" id="reviewSection"></div>
+<div class="container" id="alternativeSection"></div>
 <div class="container" id="similarSection"></div>
 
 <footer class="footer">
@@ -223,6 +225,18 @@ async function loadAppPage() {
           }).join("")
         + '</div></div>';
     }
+
+    addRecentView(app);
+    initReviewSection(app);
+    window.AppVaultDB.getAlternativeApps(id, 4).then(function(alternatives) {
+      if (alternatives.length > 0) {
+        document.getElementById('alternativeSection').innerHTML =
+          '<div class="info-card">'
+          + '<div class="info-card-title"><div class="icon">&#8644;</div>Alternative Apps to ' + app.name + '</div>'
+          + '<div class="app-grid">' + alternatives.map(buildAppCard).join('') + '</div>'
+          + '</div>';
+      }
+    });
 
     // --- SIMILAR APPS ---
     var similar = await window.AppVaultDB.getSimilarApps(id, 4);

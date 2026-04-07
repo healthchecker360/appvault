@@ -220,6 +220,24 @@ async function getSimilarApps(currentId, limit) {
   }).slice(0, limit);
 }
 
+async function getAlternativeApps(currentId, limit) {
+  limit = limit || 6;
+  var current = await getAppById(currentId);
+  if (!current) return [];
+  var apps = await getApps();
+  if (current.alternatives) {
+    var ids = String(current.alternatives).split(/[,|;]/).map(function(item) { return item.trim(); }).filter(Boolean);
+    if (ids.length) {
+      return ids.map(function(id) {
+        return apps.find(function(a) { return a.id === id; });
+      }).filter(Boolean).slice(0, limit);
+    }
+  }
+  return apps.filter(function(a) {
+    return a.id !== currentId && a.category === current.category;
+  }).slice(0, limit);
+}
+
 function clearCache() {
   appsCache = null;
   versionsCache = null;
@@ -239,5 +257,6 @@ window.AppVaultDB = {
   getRecentApps: getRecentApps,
   getTopDownloadedApps: getTopDownloadedApps,
   getSimilarApps: getSimilarApps,
+  getAlternativeApps: getAlternativeApps,
   clearCache: clearCache
 };

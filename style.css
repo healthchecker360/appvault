@@ -37,6 +37,22 @@
   --font-urdu: 'Noto Nastaliq Urdu', serif;
 }
 
+body.light-theme {
+  background: #f5f7ff;
+  color: #1f2937;
+}
+body.light-theme a { color: #4f46e5; }
+body.light-theme .navbar, body.light-theme .navbar-mobile, body.light-theme .filter-bar, body.light-theme .info-card, body.light-theme .app-card, body.light-theme .versions-table th, body.light-theme .versions-table td { background: #ffffff; }
+body.light-theme .navbar { border-color: #dde3f0; }
+body.light-theme .navbar-nav a, body.light-theme .navbar-mobile a, body.light-theme .filter-btn, body.light-theme .btn-secondary, body.light-theme .badge, body.light-theme .app-card-footer, body.light-theme .info-card-title, body.light-theme .section-title, body.light-theme .section-link, body.light-theme .footer { color: #1f2937; }
+body.light-theme .navbar-search input, body.light-theme .filter-bar, body.light-theme .app-card, body.light-theme .info-card, body.light-theme .versions-table th, body.light-theme .versions-table td { border-color: #e5e7eb; }
+body.light-theme .app-card-desc, body.light-theme .text-muted, body.light-theme .app-card-developer, body.light-theme .app-page-developer, body.light-theme .permission-desc { color: #4b5563; }
+body.light-theme .navbar-search input { background: #f8fafc; color: #1f2937; }
+body.light-theme .btn-primary { background: #4338ca; }
+body.light-theme .btn-secondary { background: #e2e8f0; color: #1f2937; }
+body.light-theme .btn-whatsapp { background: #25d366; }
+body.light-theme .favorite-btn { color: #ef4444; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -350,7 +366,113 @@ h1, h2, h3, h4, h5 {
 }
 .app-card-share-btn:hover { color: #25d366; background: rgba(37,211,102,0.1); }
 
-/* === HERO SECTION === */
+.favorite-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+.favorite-btn.active {
+  background: #ff416c;
+  border-color: #ff416c;
+  color: #fff;
+}
+.favorite-btn:hover { transform: translateY(-1px); }
+
+.theme-toggle-btn {
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  transition: all var(--transition);
+}
+.theme-toggle-btn:hover { background: var(--bg4); }
+
+.sort-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.sort-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+.sort-field label {
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+}
+.sort-field select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  color: var(--text);
+}
+
+.recent-section { margin-bottom: 36px; }
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.review-form label {
+  color: var(--text2);
+  font-size: 13px;
+}
+.review-form textarea,
+.review-form select {
+  width: 100%;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  background: var(--bg3);
+  color: var(--text);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+}
+.review-list { margin-top: 20px; display: grid; gap: 14px; }
+.review-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg3);
+  padding: 16px;
+}
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 10px;
+}
+.review-item p { color: var(--text2); line-height: 1.7; }
+.review-empty { color: var(--text2); font-size: 14px; padding-top: 10px; }
 .hero {
   padding: 60px 0 40px;
   text-align: center;
