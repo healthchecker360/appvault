@@ -7,14 +7,10 @@
 
   <meta name="description" content="Download free Android APK and Windows software. Access all old versions and latest releases. Safe, verified, and no registration required. Optimized for Pakistan and India.">
   <meta name="keywords" content="download apk free, android apk old versions, windows software download, safe apk downloader, install apk android guide, apk pakistan india">
-  <meta property="og:title" content="AppVault — Free APK & Software Downloads">
-  <meta property="og:description" content="Download Android APK and Windows software free. Old and latest versions. No registration.">
-  <meta property="og:type" content="website">
-  <link rel="canonical" href="https://yourdomain.com/">
   <link rel="stylesheet" href="style.css">
 
   <style>
-    /* ── HERO ── */
+    /* ── HERO & STATS SIDEBAR ── */
     .hero-dashboard {
       display: grid;
       grid-template-columns: 1.8fr 1fr;
@@ -27,7 +23,6 @@
     .hero-tagline { font-size: 17px; color: var(--text2); max-width: 560px; line-height: 1.6; }
     .hero-btns { margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
 
-    /* ── STATS SIDEBAR ── */
     .stats-sidebar {
       display: flex;
       flex-direction: column;
@@ -49,7 +44,7 @@
     .stat-pill .val { font-weight: 800; font-size: 20px; font-family: var(--font-head); }
     .stat-pill .lbl { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; }
 
-    /* ── DYNAMIC CATEGORY SLIDER (The "Browse" Section) ── */
+    /* ── CATEGORY SLIDER ── */
     .cat-columns-container {
       display: flex;
       gap: 20px;
@@ -77,35 +72,18 @@
     .app-row-small { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border2); text-decoration: none; color: inherit; transition: 0.2s; }
     .app-row-small:hover { transform: translateX(5px); }
     .app-row-small:last-child { border: none; }
-    .app-row-img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; background: var(--bg4); }
+    .app-row-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: var(--bg4); }
     .app-row-info { flex: 1; }
-    .app-row-name { font-size: 14px; font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
+    .app-row-name { font-size: 13px; font-weight: 600; display: block; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 150px; }
     .app-row-meta { font-size: 11px; color: var(--text3); }
-    .app-row-dl { font-size: 18px; color: var(--accent); }
-
-    /* ── STANDARD SECTIONS ── */
-    .platform-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
-    .platform-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all .2s; text-decoration: none; color: inherit; }
-    .platform-card:hover { border-color: var(--accent); background: var(--bg3); transform: translateY(-2px); color: inherit; }
-    .platform-card .pc-icon { font-size: 36px; flex-shrink: 0; }
-    .platform-card .pc-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; margin-bottom: 3px; }
-    .platform-card .pc-sub { font-size: 13px; color: var(--text3); }
-
-    .how-it-works { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 48px; text-align: center; }
-    .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 24px; }
-    .how-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .how-step-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--bg4); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; }
-
-    .faq-section { background: var(--bg2); padding: 36px; border-radius: var(--radius-lg); margin-bottom: 48px; }
-    .faq-q { font-weight: 700; color: var(--text); margin-bottom: 5px; font-size: 15px; }
-    .faq-a { color: var(--text2); font-size: 14px; line-height: 1.6; margin-bottom: 15px; }
+    .app-row-dl { font-size: 16px; color: var(--accent); }
 
     @media (max-width: 800px) {
       .hero-dashboard { grid-template-columns: 1fr; text-align: center; }
       .hero-tagline { margin: 0 auto; }
       .hero-btns { justify-content: center; }
-      .stats-sidebar { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; }
-      .stat-pill { flex: 1; min-width: 140px; }
+      .stats-sidebar { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+      .stat-pill { flex: 1; min-width: 130px; }
     }
   </style>
 </head>
@@ -116,12 +94,14 @@
     <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
     <div class="navbar-search">
       <span class="search-icon">&#128269;</span>
-      <input type="text" id="navSearch" placeholder="Search apps & software...">
+      <input type="text" id="navSearch" placeholder="Search apps...">
     </div>
     <nav class="navbar-nav">
       <a href="index.html" class="active">Home</a>
       <a href="android.html">Android</a>
       <a href="windows.html">Windows</a>
+      <a href="categories.html">Categories</a>
+      <a href="trending.html">Trending</a>
       <a href="request.html" class="nav-request-btn">Request App</a>
     </nav>
   </div>
@@ -131,55 +111,38 @@
   <section class="hero-dashboard">
     <div class="hero-content">
       <h1>Download APK &amp; <span>Software Free</span></h1>
-      <p class="hero-tagline">Access the largest library of original APKs and Windows software. We specialize in <b>all old versions</b>, direct links, and verified safety. Optimized for Pakistan &amp; India.</p>
+      <p class="hero-tagline">Access the largest library of original APKs and Windows software. Optimized for users in Pakistan &amp; India.</p>
       <div class="hero-btns">
         <a href="android.html" class="btn btn-primary">&#128241; Android Apps</a>
         <a href="windows.html" class="btn btn-secondary">&#128187; Windows PC</a>
       </div>
     </div>
 
-    <div class="stats-sidebar" id="statsSidebar">
-      <div class="stat-pill" style="border-color: var(--android);">
-        <div class="lbl">Android APKs</div>
-        <div class="val" id="statAndroid">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: #60b8ff;">
-        <div class="lbl">Windows Apps</div>
-        <div class="val" id="statWindows">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: var(--accent2);">
-        <div class="lbl">Total Library</div>
-        <div class="val" id="statTotal">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: var(--success);">
-        <div class="lbl">Safety</div>
-        <div class="val">100% Clean</div>
-      </div>
+    <div class="stats-sidebar">
+      <div class="stat-pill" style="border-color: var(--android);"><div class="lbl">APKs</div><div class="val" id="statAndroid">...</div></div>
+      <div class="stat-pill" style="border-color: #60b8ff;"><div class="lbl">Software</div><div class="val" id="statWindows">...</div></div>
+      <div class="stat-pill" style="border-color: var(--accent2);"><div class="lbl">Total</div><div class="val" id="statTotal">...</div></div>
+      <div class="stat-pill" style="border-color: var(--success);"><div class="lbl">Safety</div><div class="val">Clean</div></div>
     </div>
   </section>
 
   <section style="margin-bottom: 48px;">
     <div class="section-header">
       <h2 class="section-title">&#128196; Browse <span>Categories</span></h2>
-      <p style="font-size: 14px; color: var(--text3); margin-top: -8px;">Find apps by type. Scroll side-ways for more.</p>
+      <p style="font-size: 14px; color: var(--text3); margin-top: -8px;">Find apps by type. Scroll for more.</p>
     </div>
-    <div class="cat-columns-container" id="megaCatGrid"></div>
+    <div class="cat-columns-container" id="megaCatGrid">
+        </div>
   </section>
 
   <div class="platform-cards">
     <a href="android.html" class="platform-card android">
       <div class="pc-icon">&#128241;</div>
-      <div>
-        <div class="pc-title">Android APKs</div>
-        <div class="pc-sub">All versions &bull; No account needed</div>
-      </div>
+      <div><div class="pc-title">Android APKs</div><div class="pc-sub">No account needed</div></div>
     </a>
     <a href="windows.html" class="platform-card windows">
       <div class="pc-icon">&#128187;</div>
-      <div>
-        <div class="pc-title">Windows Software</div>
-        <div class="pc-sub">Old &amp; latest releases &bull; Free</div>
-      </div>
+      <div><div class="pc-title">Windows Software</div><div class="pc-sub">Free software</div></div>
     </a>
   </div>
 
@@ -191,27 +154,18 @@
     <div id="featuredApps" class="app-grid"></div>
   </section>
 
-  <div class="how-it-works">
-    <h2 class="section-title">How to <span>Download</span></h2>
-    <div class="how-steps">
-      <div class="how-step"><div class="how-step-icon">&#128269;</div><div class="how-step-title">1. Search App</div></div>
-      <div class="how-step"><div class="how-step-icon">&#128196;</div><div class="how-step-title">2. Pick Version</div></div>
-      <div class="how-step"><div class="how-step-icon">&#8681;</div><div class="how-step-title">3. Download Free</div></div>
-    </div>
-  </div>
-
   <div class="faq-section">
     <h2 class="section-title" style="margin-bottom: 20px;">Common <span>Questions</span></h2>
-    <div class="faq-q">Why download old versions of APKs?</div>
-    <div class="faq-a">Sometimes new updates are slow or incompatible with older phones. We provide safe rollback versions.</div>
-    <div class="faq-q">Are the download links direct?</div>
-    <div class="faq-a">Yes. We use TeraBox and Mega for high-speed downloads in India and Pakistan.</div>
+    <div class="faq-q">How to install APK files?</div>
+    <div class="faq-a">Enable 'Unknown Sources' in settings and open the downloaded file.</div>
+    <div class="faq-q">Are files safe?</div>
+    <div class="faq-a">Yes. AppVault provides original, malware-scanned files.</div>
   </div>
 </div>
 
 <footer class="footer">
   <div class="container">
-    <p>&copy; <span id="footerYear"></span> AppVault. High-Speed APK Archive.</p>
+    <p>&copy; <span id="footerYear"></span> AppVault.</p>
   </div>
 </footer>
 
@@ -221,19 +175,17 @@
 document.addEventListener("DOMContentLoaded", async function() {
   try {
     const all = await window.AppVaultDB.getApps();
-    const categories = await window.AppVaultDB.getAllCategories();
     const catGrid = document.getElementById("megaCatGrid");
-
-    // 1. UPDATE STATS
+    
+    // Stats
     document.getElementById("statTotal").textContent = all.length;
     document.getElementById("statAndroid").textContent = all.filter(a => a.platform === "android").length;
     document.getElementById("statWindows").textContent = all.filter(a => a.platform === "windows").length;
     document.getElementById("footerYear").textContent = new Date().getFullYear();
 
-    // 2. SMALL ROW BUILDER
     const buildSmallRow = (app) => `
       <a href="app.html?id=${app.id}" class="app-row-small">
-        <img src="${app.icon || 'icon-default.png'}" class="app-row-img" alt="${app.name}" loading="lazy" onerror="this.src='icon-default.png'">
+        <img src="${app.icon || 'icon-default.png'}" class="app-row-img" alt="${app.name}" onerror="this.src='icon-default.png'">
         <div class="app-row-info">
           <span class="app-row-name">${app.name}</span>
           <span class="app-row-meta">v${app.version || 'Old'} • ${app.size || 'Varies'}</span>
@@ -242,10 +194,14 @@ document.addEventListener("DOMContentLoaded", async function() {
       </a>
     `;
 
-    // 3. GENERATE DYNAMIC COLUMNS
+    // Category Logic: Force Trending to be first
+    let categories = await window.AppVaultDB.getAllCategories();
+    categories = categories.filter(c => c !== 'trending');
+    categories.unshift('trending'); // Add 'trending' to the start of the array
+
     catGrid.innerHTML = categories.map(cat => {
       const catApps = all.filter(a => a.category === cat).slice(0, 5);
-      const iconMap = { social:"&#128172;", tools:"&#128296;", games:"&#127918;", video:"&#127916;", music:"&#127925;" };
+      const iconMap = { trending:"&#128293;", social:"&#128172;", tools:"&#128296;", games:"&#127918;" };
       const icon = iconMap[cat] || "&#128196;";
       const displayTitle = cat.charAt(0).toUpperCase() + cat.slice(1);
       
@@ -262,14 +218,12 @@ document.addEventListener("DOMContentLoaded", async function() {
       `;
     }).join('');
 
-    // Load Featured section
+    // Load Featured
     var featured = await window.AppVaultDB.getFeaturedApps();
     var featList = featured.length > 0 ? featured.slice(0, 4) : all.slice(0, 4);
     document.getElementById("featuredApps").innerHTML = featList.map(buildAppCard).join("");
 
-  } catch(e) {
-    console.error("Layout Error:", e);
-  }
+  } catch(e) { console.error(e); }
 });
 </script>
 </body>
