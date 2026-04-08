@@ -1,248 +1,608 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AppVault — Download Free APK & Windows Software | All Old Versions</title>
 
-<title>AppVault — Premium APK & Software Hub</title>
+  <meta name="description" content="Download free Android APK and Windows software. Access all old versions and latest releases. Safe, verified, and no registration required. Optimized for Pakistan and India.">
+  <meta name="keywords" content="download apk free, android apk old versions, windows software download, safe apk downloader, install apk android guide, apk pakistan india">
+  <meta property="og:title" content="AppVault — Free APK & Software Downloads">
+  <meta property="og:description" content="Download Android APK and Windows software free. Old and latest versions. No registration.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://yourdomain.com/">
+  <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
+  <style>
+    /* ── HERO ── */
+    .hero-dashboard {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr;
+      gap: 30px;
+      padding: 56px 0 48px;
+      align-items: center;
+    }
+    .hero-content h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.1; margin-bottom: 14px; }
+    .hero-content h1 span { color: var(--accent2); }
+    .hero-tagline { font-size: 17px; color: var(--text2); max-width: 560px; line-height: 1.6; }
+    .hero-btns { margin-top: 24px; display: flex; gap: 14px; flex-wrap: wrap; }
 
-<style>
+    /* ── STATS SIDEBAR ── */
+    .stats-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(255,255,255,0.04);
+      padding: 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+    .stat-pill {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--bg2);
+      border-radius: var(--radius);
+      border-left: 4px solid var(--accent);
+    }
+    .stat-pill .val { font-weight: 800; font-size: 20px; font-family: var(--font-head); }
+    .stat-pill .lbl { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; }
 
-/* ================= PREMIUM FEATURED SLIDER ================= */
-.featured-scroll {
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-.featured-scroll::-webkit-scrollbar { display: none; }
-.featured-scroll .app-card {
-  min-width: 260px;
-}
+    /* ── CATEGORY COLUMNS ── */
+    .cat-columns-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .cat-column { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+    .cat-column-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .cat-column-title { font-size: 15px; font-weight: 700; color: var(--accent2); }
 
-/* ================= CATEGORY COLUMN SYSTEM ================= */
-.category-wrapper {
-  overflow-x: auto;
-  padding-bottom: 10px;
-}
-.category-wrapper::-webkit-scrollbar { display: none; }
+    /* ── SMALL APP ROWS ── */
+    .app-row-small { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border2); text-decoration: none; color: inherit; transition: 0.2s; }
+    .app-row-small:hover { transform: translateX(5px); }
+    .app-row-small:last-child { border: none; }
+    .app-row-img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; background: var(--bg4); }
+    .app-row-info { flex: 1; }
+    .app-row-name { font-size: 14px; font-weight: 600; display: block; }
+    .app-row-meta { font-size: 11px; color: var(--text3); }
+    .app-row-dl { font-size: 18px; color: var(--accent); }
 
-.category-flex {
-  display: flex;
-  gap: 16px;
-  width: max-content;
-}
+    /* ── PLATFORM CARDS ── */
+    .platform-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
+    .platform-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all .2s; text-decoration: none; color: inherit; }
+    .platform-card:hover { border-color: var(--accent); background: var(--bg3); transform: translateY(-2px); color: inherit; }
+    .platform-card .pc-icon { font-size: 36px; flex-shrink: 0; }
+    .platform-card .pc-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; margin-bottom: 3px; }
+    .platform-card .pc-sub { font-size: 13px; color: var(--text3); }
+    .platform-card.android .pc-title { color: var(--android); }
+    .platform-card.windows .pc-title { color: #60b8ff; }
 
-.category-col {
-  width: 260px;
-  height: 380px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: 0.25s;
-}
+    /* ── CATEGORY PILLS ── */
+    .home-cats-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+    .home-cat-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; transition: all .2s; text-decoration: none; }
+    .home-cat-pill:hover { border-color: var(--accent); color: var(--accent2); background: var(--bg3); }
 
-.category-col:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow);
-}
+    /* ── HOW IT WORKS ── */
+    .how-it-works { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 48px; text-align: center; }
+    .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 24px; }
+    .how-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .how-step-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--bg4); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .how-step-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; }
+    .how-step-sub { font-size: 12px; color: var(--text3); text-align: center; line-height: 1.5; }
 
-.category-header {
-  padding: 12px;
-  border-bottom: 1px solid var(--border);
-  font-weight: 700;
-  color: var(--accent2);
-  display: flex;
-  justify-content: space-between;
-}
+    /* ── TRUST BADGES ── */
+    .trust-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; justify-content: center; }
+    .trust-badge { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; font-size: 13px; color: var(--text2); font-weight: 500; }
 
-.category-list {
-  flex: 1;
-  overflow-y: auto;
-}
+    /* ── REQUEST CTA ── */
+    .request-cta { background: linear-gradient(135deg, #13102a 0%, #0d0a1e 100%); border: 1px solid var(--accent); border-radius: var(--radius-lg); padding: 32px; text-align: center; margin-bottom: 48px; }
+    .request-cta h2 { font-size: 22px; margin-bottom: 8px; }
+    .request-cta p { color: var(--text2); font-size: 15px; margin-bottom: 20px; }
 
-/* mini app row */
-.mini-app {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-bottom: 1px solid var(--border2);
-  transition: 0.2s;
-}
-.mini-app:hover {
-  background: var(--bg3);
-  transform: translateX(4px);
-}
+    /* ── POPULAR SEARCHES ── */
+    .popular-searches { margin-bottom: 40px; }
+    .popular-searches-title { font-size: 13px; color: var(--text3); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+    .ps-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ps-tag { padding: 6px 14px; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border2); font-size: 12px; color: var(--text2); cursor: pointer; transition: all .2s; text-decoration: none; }
+    .ps-tag:hover { border-color: var(--accent); color: var(--accent2); }
 
-.mini-app img {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-}
+    /* ── FAQ ── */
+    .faq-section { background: var(--bg2); padding: 36px; border-radius: var(--radius-lg); margin-bottom: 48px; }
+    .faq-item { margin-bottom: 18px; }
+    .faq-item:last-child { margin-bottom: 0; }
+    .faq-q { font-weight: 700; color: var(--text); margin-bottom: 5px; font-size: 15px; }
+    .faq-a { color: var(--text2); font-size: 14px; line-height: 1.6; }
 
-.mini-info {
-  flex: 1;
-}
+    /* ── NAVBAR REQUEST BTN ── */
+    .nav-request-btn { background: var(--accent); color: #fff !important; border-radius: var(--radius); padding: 6px 14px !important; font-size: 13px !important; }
+    .nav-request-btn:hover { background: var(--accent3) !important; color: #fff !important; }
 
-.mini-name {
-  font-size: 13px;
-  font-weight: 600;
-}
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      .hero-dashboard { grid-template-columns: 1fr; text-align: center; padding: 36px 0 32px; }
+      .hero-tagline { margin: 0 auto; }
+      .hero-btns { justify-content: center; }
+      .stats-sidebar { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 14px; }
+      .stat-pill { flex: 1; min-width: 130px; }
+    }
+    @media (max-width: 640px) {
+      .platform-cards { grid-template-columns: 1fr; }
+      .how-it-works { padding: 20px; }
+    }
+  </style>
 
-.mini-meta {
-  font-size: 11px;
-  color: var(--text3);
-}
-
-/* MOBILE FIX */
-@media(max-width:600px){
-  .category-col{
-    width: 40vw;
-    min-width: 140px;
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How to install APK files on Android?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Go to Settings > Security and enable 'Unknown Sources'. Then open the downloaded APK file and tap Install."
+      }
+    },{
+      "@type": "Question",
+      "name": "Are old versions of apps safe to download?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, AppVault provides original APK files scanned for malware. Old versions are useful if newer updates are incompatible with your device."
+      }
+    },{
+      "@type": "Question",
+      "name": "Why download old versions of APKs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sometimes new updates are slow, contain too many ads, or are incompatible with older Android phones. AppVault provides safe rollback versions for every app."
+      }
+    }]
   }
-}
-
-</style>
+  </script>
 </head>
-
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="#" class="navbar-logo">App<span>Vault</span></a>
-
+    <a href="index.html" class="navbar-logo">
+      <div class="logo-icon">A</div>
+      App<span>Vault</span>
+    </a>
     <div class="navbar-search">
-      <input type="text" id="navSearch" placeholder="Search apps...">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="navSearch" placeholder="Search apps & software...">
     </div>
-
-    <div class="navbar-nav">
-      <a href="#">Home</a>
-      <a href="#">Android</a>
-      <a href="#">Windows</a>
-      <a href="#">Categories</a>
-      <a href="#" class="btn btn-primary">Request</a>
-    </div>
+    <nav class="navbar-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="android.html">Android</a>
+      <a href="windows.html">Windows</a>
+      <a href="categories.html">Categories</a>
+      <a href="trending.html">Trending</a>
+      <a href="request.html" class="nav-request-btn">&#128232; Request App</a>
+    </nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="android.html">Android</a>
+    <a href="windows.html">Windows</a>
+    <a href="categories.html">Categories</a>
+    <a href="trending.html">Trending</a>
+    <a href="request.html">&#128232; Request App</a>
+    <a href="about.html">About</a>
   </div>
 </nav>
 
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
 <!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <h1>Download APK & Software</h1>
-    <p>All versions • Safe • Fast • No login required</p>
-  </div>
-</section>
+<div class="container">
+  <section class="hero-dashboard">
+    <div class="hero-content">
+      <h1>Download APK &amp; <span>Software Free</span></h1>
+      <p class="hero-tagline">Access the largest library of original APKs and Windows software. We specialize in <b>all old versions</b>, direct links, and verified safety. Optimized for users in Pakistan &amp; India.</p>
+      <div class="hero-btns">
+        <a href="android.html" class="btn btn-primary">&#128241; Android Apps</a>
+        <a href="windows.html" class="btn btn-secondary">&#128187; Windows PC</a>
+      </div>
+    </div>
 
-<!-- ================= FEATURED (NOW PREMIUM HORIZONTAL) ================= -->
-<section class="container">
+    <div class="stats-sidebar">
+      <div class="stat-pill" style="border-color: var(--android);">
+        <div class="lbl">Android APKs</div>
+        <div class="val" id="statAndroid">...</div>
+      </div>
+      <div class="stat-pill" style="border-color: #60b8ff;">
+        <div class="lbl">Windows Apps</div>
+        <div class="val" id="statWindows">...</div>
+      </div>
+      <div class="stat-pill" style="border-color: var(--accent2);">
+        <div class="lbl">Total Library</div>
+        <div class="val" id="statTotal">...</div>
+      </div>
+      <div class="stat-pill" style="border-color: var(--success);">
+        <div class="lbl">Safety</div>
+        <div class="val">100% Clean</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- PLATFORM CARDS -->
+<div class="container">
+  <div class="platform-cards">
+    <a href="android.html" class="platform-card android">
+      <div class="pc-icon">&#128241;</div>
+      <div>
+        <div class="pc-title">Android APKs</div>
+        <div class="pc-sub">All versions &bull; No account needed</div>
+      </div>
+    </a>
+    <a href="windows.html" class="platform-card windows">
+      <div class="pc-icon">&#128187;</div>
+      <div>
+        <div class="pc-title">Windows Software</div>
+        <div class="pc-sub">Old &amp; latest releases &bull; Free</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- BROWSE BY CATEGORY -->
+<div class="container" style="margin-bottom: 40px;">
   <div class="section-header">
-    <h2 class="section-title">⭐ Featured Apps</h2>
+    <h2 class="section-title">&#128196; Browse by <span>Category</span></h2>
+    <a href="categories.html" class="section-link">All categories &rarr;</a>
   </div>
-
-  <div id="featuredApps" class="featured-scroll"></div>
-</section>
-
-<!-- ================= CATEGORY (NEW COLUMN SYSTEM) ================= -->
-<section class="container">
-  <div class="section-header">
-    <h2 class="section-title">📂 Categories</h2>
+  <div id="homeCats" class="home-cats-row">
+    <a href="android.html?cat=social"       class="home-cat-pill">&#128172; Social</a>
+    <a href="android.html?cat=tools"        class="home-cat-pill">&#128296; Tools</a>
+    <a href="android.html?cat=games"        class="home-cat-pill">&#127918; Games</a>
+    <a href="android.html?cat=video"        class="home-cat-pill">&#127916; Video</a>
+    <a href="android.html?cat=music"        class="home-cat-pill">&#127925; Music</a>
+    <a href="android.html?cat=education"    class="home-cat-pill">&#128218; Education</a>
+    <a href="android.html?cat=productivity" class="home-cat-pill">&#128203; Productivity</a>
+    <a href="android.html?cat=security"     class="home-cat-pill">&#128274; Security</a>
   </div>
+</div>
 
-  <div class="category-wrapper">
-    <div class="category-flex">
-
-      <div class="category-col">
-        <div class="category-header">Entertainment</div>
-        <div id="catEntertainment" class="category-list"></div>
+<!-- COMPACT CATEGORY COLUMNS (NEW) -->
+<div class="container">
+  <div class="cat-columns-grid">
+    <div class="cat-column">
+      <div class="cat-column-header">
+        <span class="cat-column-title">&#128172; Social Media</span>
+        <a href="android.html?cat=social" class="section-link">View All</a>
       </div>
-
-      <div class="category-col">
-        <div class="category-header">Games</div>
-        <div id="catGames" class="category-list"></div>
+      <div id="colSocial"></div>
+    </div>
+    <div class="cat-column">
+      <div class="cat-column-header">
+        <span class="cat-column-title">&#127918; Top Games</span>
+        <a href="android.html?cat=games" class="section-link">View All</a>
       </div>
-
-      <div class="category-col">
-        <div class="category-header">Social</div>
-        <div id="catSocial" class="category-list"></div>
+      <div id="colGames"></div>
+    </div>
+    <div class="cat-column">
+      <div class="cat-column-header">
+        <span class="cat-column-title">&#128296; Essential Tools</span>
+        <a href="android.html?cat=tools" class="section-link">View All</a>
       </div>
-
-      <div class="category-col">
-        <div class="category-header">Messaging</div>
-        <div id="catMessaging" class="category-list"></div>
-      </div>
-
-      <div class="category-col">
-        <div class="category-header">Security</div>
-        <div id="catSecurity" class="category-list"></div>
-      </div>
-
-      <div class="category-col">
-        <div class="category-header">Photography</div>
-        <div id="catPhotography" class="category-list"></div>
-      </div>
-
+      <div id="colTools"></div>
     </div>
   </div>
+</div>
+
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
+<!-- FEATURED APPS -->
+<section class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">&#11088; Featured <span>Apps</span></h2>
+    <a href="android.html?filter=featured" class="section-link">View all featured &rarr;</a>
+  </div>
+  <div id="featuredApps" class="app-grid"></div>
 </section>
+
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
+<!-- RECENTLY ADDED -->
+<section class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">&#128197; Recently <span>Added</span></h2>
+    <a href="android.html?sort=newest" class="section-link">View all new apps &rarr;</a>
+  </div>
+  <div id="latestApps" class="app-grid"></div>
+</section>
+
+<!-- RECENTLY UPDATED -->
+<section class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">&#128260; Recently <span>Updated</span></h2>
+    <a href="trending.html" class="section-link">See trending &rarr;</a>
+  </div>
+  <div id="updatedApps" class="app-grid"></div>
+</section>
+
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
+<!-- MOST DOWNLOADED -->
+<section class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">&#128293; Most <span>Downloaded</span></h2>
+    <a href="android.html?sort=downloads" class="section-link">View all &rarr;</a>
+  </div>
+  <div id="topApps" class="app-grid"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div class="container">
+  <div class="how-it-works">
+    <h2 class="section-title" style="margin-bottom: 4px;">How to <span>Download</span></h2>
+    <p style="color: var(--text3); font-size: 14px;">Takes less than 30 seconds. No account, no signup.</p>
+    <div class="how-steps">
+      <div class="how-step"><div class="how-step-icon">&#128269;</div><div class="how-step-title">1. Search App</div><div class="how-step-sub">Type the app name in the search bar above</div></div>
+      <div class="how-step"><div class="how-step-icon">&#128196;</div><div class="how-step-title">2. Pick Version</div><div class="how-step-sub">Choose latest or any old version you need</div></div>
+      <div class="how-step"><div class="how-step-icon">&#8681;</div><div class="how-step-title">3. Download Free</div><div class="how-step-sub">Click the green button — direct download link</div></div>
+      <div class="how-step"><div class="how-step-icon">&#128241;</div><div class="how-step-title">4. Install APK</div><div class="how-step-sub">Enable Unknown Sources in settings &amp; install</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST BADGES -->
+<div class="container">
+  <div class="trust-row">
+    <div class="trust-badge"><span>&#128274;</span> 100% Free — No Hidden Cost</div>
+    <div class="trust-badge"><span>&#10003;</span> No Registration Required</div>
+    <div class="trust-badge"><span>&#128241;</span> Original APK Files</div>
+    <div class="trust-badge"><span>&#127758;</span> Works in Pakistan &amp; India</div>
+    <div class="trust-badge"><span>&#9889;</span> Fast TeraBox &amp; Mega Links</div>
+  </div>
+</div>
+
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
+<!-- TOP RATED -->
+<section class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">&#9733; Top <span>Rated</span></h2>
+    <a href="android.html?sort=rating" class="section-link">View all &rarr;</a>
+  </div>
+  <div id="topRatedApps" class="app-grid"></div>
+</section>
+
+<!-- POPULAR SEARCHES -->
+<div class="container">
+  <div class="popular-searches">
+    <div class="popular-searches-title">&#128269; Popular Searches</div>
+    <div class="ps-tags">
+      <a href="search.html?q=whatsapp"  class="ps-tag">WhatsApp old version</a>
+      <a href="search.html?q=youtube"   class="ps-tag">YouTube APK</a>
+      <a href="search.html?q=tiktok"    class="ps-tag">TikTok APK</a>
+      <a href="search.html?q=facebook"  class="ps-tag">Facebook APK</a>
+      <a href="search.html?q=instagram" class="ps-tag">Instagram old version</a>
+      <a href="search.html?q=pubg"      class="ps-tag">PUBG Mobile APK</a>
+      <a href="search.html?q=vlc"       class="ps-tag">VLC for Android</a>
+      <a href="search.html?q=capcut"    class="ps-tag">CapCut old version</a>
+      <a href="search.html?q=zoom"      class="ps-tag">Zoom APK</a>
+      <a href="search.html?q=spotify"   class="ps-tag">Spotify APK</a>
+      <a href="search.html?q=chrome"    class="ps-tag">Chrome APK</a>
+      <a href="search.html?q=snaptube"  class="ps-tag">Snaptube APK</a>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ SECTION (NEW) -->
+<div class="container">
+  <div class="faq-section">
+    <h2 class="section-title" style="margin-bottom: 20px;">Common <span>Questions</span></h2>
+    <div class="faq-item">
+      <div class="faq-q">Why download old versions of APKs?</div>
+      <div class="faq-a">Sometimes new updates are slow, contain too many ads, or are not compatible with older Android phones. We provide safe rollback versions for every app.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How to install APK files on Android?</div>
+      <div class="faq-a">Go to Settings &gt; Security and enable "Unknown Sources". Then open the downloaded APK file and tap Install. It takes under a minute.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are the download links direct?</div>
+      <div class="faq-a">Yes. We use high-speed cloud storage like TeraBox and Mega to ensure fast downloads for users in India, Pakistan, and Bangladesh.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Are old versions of apps safe to download?</div>
+      <div class="faq-a">Yes. AppVault provides original APK files scanned for malware. All files are verified before being added to the library.</div>
+    </div>
+  </div>
+</div>
+
+<!-- REQUEST APP CTA -->
+<div class="container">
+  <div class="request-cta">
+    <div style="font-size: 40px; margin-bottom: 12px;">&#128232;</div>
+    <h2>Can't find the app you need?</h2>
+    <p>Request any APK or Windows software — we add it within 24 hours. Always free.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="request.html" class="btn btn-primary btn-lg">&#128232; Request an App</a>
+      <a href="contact.html" class="btn btn-secondary btn-lg">&#128172; Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<!-- AD SLOT -->
+<div class="container">
+  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+</div>
+
+<!-- WHY APPVAULT -->
+<div class="container" style="margin-bottom: 48px;">
+  <div class="section-header">
+    <h2 class="section-title">Why <span>AppVault?</span></h2>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#128260;</div>
+      <h3 style="font-size: 15px; margin-bottom: 6px;">All Old Versions</h3>
+      <p style="font-size: 13px; color: var(--text3); line-height: 1.6;">Every version ever released — roll back if an update broke something.</p>
+    </div>
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#127760;</div>
+      <h3 style="font-size: 15px; margin-bottom: 6px;">Works in Pakistan &amp; India</h3>
+      <p style="font-size: 13px; color: var(--text3); line-height: 1.6;">Links via TeraBox and Mega — fast speeds for South Asian users.</p>
+    </div>
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#128274;</div>
+      <h3 style="font-size: 15px; margin-bottom: 6px;">Permissions Explained</h3>
+      <p style="font-size: 13px; color: var(--text3); line-height: 1.6;">Every app shows what each permission means in plain language.</p>
+    </div>
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px;">
+      <div style="font-size: 28px; margin-bottom: 10px;">&#8635;</div>
+      <h3 style="font-size: 15px; margin-bottom: 6px;">Rollback Guides</h3>
+      <p style="font-size: 13px; color: var(--text3); line-height: 1.6;">Step-by-step guide on every page showing how to downgrade safely.</p>
+    </div>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-legal">© AppVault</div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">App<span>Vault</span></div>
+        <p>Free Android APK and Windows software downloads. Latest and old versions available for South Asian users.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Downloads</h4>
+        <ul>
+          <li><a href="android.html">Android APK</a></li>
+          <li><a href="windows.html">Windows Software</a></li>
+          <li><a href="categories.html">Categories</a></li>
+          <li><a href="trending.html">Trending</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="request.html">Request App</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">
+        &copy; <span id="footerYear"></span> AppVault. All app logos belong to their respective owners. We do not host any copyrighted content. All download links point to third-party storage services.
+      </div>
+    </div>
   </div>
 </footer>
 
-<!-- SCRIPTS -->
 <script src="sheets-loader.js"></script>
 <script src="main.js"></script>
-
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", async function() {
+  showLoading("featuredApps");
+  showLoading("latestApps");
+  showLoading("updatedApps");
+  showLoading("topApps");
+  showLoading("topRatedApps");
 
-  const all = await window.AppVaultDB.getApps();
+  try {
+    var all      = await window.AppVaultDB.getApps();
+    var featured = await window.AppVaultDB.getFeaturedApps();
 
-  // ===== MINI ROW =====
-  function mini(app){
-    return `
-      <a href="app.html?id=${app.id}" class="mini-app">
-        <img src="${app.icon}">
-        <div class="mini-info">
-          <div class="mini-name">${app.name}</div>
-          <div class="mini-meta">${app.downloads || '100K+'}</div>
-        </div>
-      </a>
-    `;
+    // Stats
+    document.getElementById("statTotal").textContent   = all.length;
+    document.getElementById("statAndroid").textContent = all.filter(function(a){ return a.platform === "android"; }).length;
+    document.getElementById("statWindows").textContent = all.filter(function(a){ return a.platform === "windows"; }).length;
+
+    // Dynamic category pills
+    var cats = await window.AppVaultDB.getAllCategories();
+    if (cats.length > 0) {
+      var catIcons = { social:"&#128172;", tools:"&#128296;", games:"&#127918;", video:"&#127916;", music:"&#127925;", education:"&#128218;", productivity:"&#128203;", security:"&#128274;", utilities:"&#128295;", communication:"&#128222;", entertainment:"&#127902;", sports:"&#9917;", news:"&#128240;", finance:"&#128176;", health:"&#10084;", shopping:"&#128717;", photography:"&#128247;", travel:"&#9992;" };
+      document.getElementById("homeCats").innerHTML = cats.slice(0, 10).map(function(c) {
+        var icon = catIcons[c] || "&#128196;";
+        return '<a href="android.html?cat=' + encodeURIComponent(c) + '" class="home-cat-pill">' + icon + ' ' + c.charAt(0).toUpperCase() + c.slice(1) + '</a>';
+      }).join("");
+    }
+
+    // Compact category columns builder
+    var buildSmallRow = function(app) {
+      return '<a href="app.html?id=' + app.id + '" class="app-row-small">' +
+        '<img src="' + (app.icon || 'icon-default.png') + '" class="app-row-img" alt="' + app.name + '" onerror="this.src=\'icon-default.png\'">' +
+        '<div class="app-row-info">' +
+          '<span class="app-row-name">' + app.name + '</span>' +
+          '<span class="app-row-meta">v' + (app.version || 'Latest') + ' &bull; ' + (app.size || 'Varies') + '</span>' +
+        '</div>' +
+        '<div class="app-row-dl">&#10515;</div>' +
+      '</a>';
+    };
+
+    var socialApps = all.filter(function(a){ return a.category === 'social'; }).slice(0, 5);
+    var gameApps   = all.filter(function(a){ return a.category === 'games';  }).slice(0, 5);
+    var toolApps   = all.filter(function(a){ return a.category === 'tools';  }).slice(0, 5);
+
+    document.getElementById("colSocial").innerHTML = socialApps.length ? socialApps.map(buildSmallRow).join('') : '<p style="font-size:13px;color:var(--text3);padding:12px 0;">No apps yet.</p>';
+    document.getElementById("colGames").innerHTML  = gameApps.length  ? gameApps.map(buildSmallRow).join('')   : '<p style="font-size:13px;color:var(--text3);padding:12px 0;">No apps yet.</p>';
+    document.getElementById("colTools").innerHTML  = toolApps.length  ? toolApps.map(buildSmallRow).join('')   : '<p style="font-size:13px;color:var(--text3);padding:12px 0;">No apps yet.</p>';
+
+    // Featured
+    var featList = featured.length > 0 ? featured.slice(0, 4) : all.slice(0, 4);
+    if (featList.length) document.getElementById("featuredApps").innerHTML = featList.map(buildAppCard).join("");
+    else showEmpty("featuredApps", "No featured apps yet");
+
+    // Recently added
+    var latest = await window.AppVaultDB.getRecentApps(4);
+    if (latest.length) document.getElementById("latestApps").innerHTML = latest.map(buildAppCard).join("");
+    else showEmpty("latestApps", "No apps added yet");
+
+    // Recently updated
+    var updated = await window.AppVaultDB.getRecentlyUpdated(30, 4);
+    if (updated.length) document.getElementById("updatedApps").innerHTML = updated.map(buildAppCard).join("");
+    else document.getElementById("updatedApps").closest("section").style.display = "none";
+
+    // Most downloaded
+    var top = await window.AppVaultDB.getTopDownloadedApps(4);
+    if (top.length) document.getElementById("topApps").innerHTML = top.map(buildAppCard).join("");
+    else document.getElementById("topApps").closest("section").style.display = "none";
+
+    // Top rated
+    var rated = all.slice().sort(function(a,b){ return parseFloat(b.rating||0)-parseFloat(a.rating||0); }).slice(0,4);
+    if (rated.length) document.getElementById("topRatedApps").innerHTML = rated.map(buildAppCard).join("");
+    else document.getElementById("topRatedApps").closest("section").style.display = "none";
+
+  } catch(e) {
+    console.error(e);
+    showError("featuredApps", "Could not load apps. Please check your internet connection and refresh.");
+    ["latestApps","updatedApps","topApps","topRatedApps"].forEach(function(id){ showError(id); });
   }
-
-  function fill(id, cat){
-    const el = document.getElementById(id);
-    const apps = all.filter(a => a.category?.toLowerCase() === cat).slice(0,10);
-    el.innerHTML = apps.map(mini).join('');
-  }
-
-  fill("catEntertainment","entertainment");
-  fill("catGames","games");
-  fill("catSocial","social");
-  fill("catMessaging","communication");
-  fill("catSecurity","security");
-  fill("catPhotography","photography");
-
-  // ===== FEATURED =====
-  document.getElementById("featuredApps").innerHTML =
-    all.filter(a => a.featured === "yes")
-       .slice(0,8)
-       .map(buildAppCard)
-       .join("");
-
 });
 </script>
-
 </body>
 </html>
