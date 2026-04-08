@@ -1,4 +1,4 @@
-here it is update it ( /* ============================================================
+/* ============================================================
    AppVault — style.css
    Dark theme. Background #080810. Accent purple #6c5ce7.
    Fonts: Syne (headings) + Inter (body)
@@ -867,4 +867,4 @@ body.urdu-mode .filter-bar { flex-direction: row-reverse; }
 ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
 
 /* === SELECTION === */
-::selection { background: rgba(108,92,231,0.3); color: #fff; }) 
+::selection { background: rgba(108,92,231,0.3); color: #fff; }
