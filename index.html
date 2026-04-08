@@ -49,129 +49,99 @@
     .stat-pill .val { font-weight: 800; font-size: 20px; font-family: var(--font-head); }
     .stat-pill .lbl { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; }
 
-    /* ── HORIZONTAL CATEGORY SHELVES ── */
-    .category-shelf-container { margin-bottom: 48px; }
-    .shelf { margin-bottom: 30px; }
-    .shelf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px; }
-    .shelf-title { font-size: 16px; font-weight: 700; color: var(--accent2); display: flex; align-items: center; gap: 8px; }
-    .shelf-scroll { 
-      display: flex; 
-      gap: 12px; 
-      overflow-x: auto; 
-      padding: 4px; 
-      scrollbar-width: none; 
-      -ms-overflow-style: none; 
+    /* ── CATEGORY SHELF (4 VISIBLE AT ONCE + SIDE SCROLL) ── */
+    .shelf-scroll-area {
+        overflow-x: auto;
+        padding: 10px 0 25px;
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent) transparent;
+        margin-bottom: 30px;
+        cursor: grab;
     }
-    .shelf-scroll::-webkit-scrollbar { display: none; }
-    
-    .app-card-mini {
-      flex: 0 0 240px;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 10px;
+    .shelf-scroll-area:active { cursor: grabbing; }
+
+    .shelf-grid {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s, border-color 0.2s;
+      gap: 20px;
+      /* Each column takes roughly 25% of the container width minus gaps */
+      width: fit-content; 
     }
-    .app-card-mini:hover { transform: translateY(-2px); border-color: var(--accent); }
-    .mini-icon { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; background: var(--bg4); }
-    .mini-info { flex: 1; overflow: hidden; }
-    .mini-name { display: block; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mini-meta { display: block; font-size: 11px; color: var(--text3); }
-    .mini-dl { font-size: 16px; color: var(--accent); }
+
+    .shelf-column {
+        flex: 0 0 calc(25% - 15px); /* Forces exactly 4 to be visible on desktop */
+        min-width: 280px; /* Prevents them from getting too squished on mobile */
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        display: flex;
+        flex-direction: column;
+        height: 420px;
+        transition: border-color 0.3s;
+    }
+    .shelf-column:hover { border-color: var(--accent2); }
+
+    .shelf-header {
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(255,255,255,0.02);
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .shelf-title {
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--accent2);
+        text-transform: uppercase;
+    }
+    .shelf-app-list {
+        flex: 1;
+        overflow-y: auto;
+        padding: 12px;
+        /* Custom scrollbar for the vertical app list */
+        scrollbar-width: none;
+    }
+    .shelf-app-list::-webkit-scrollbar { display: none; }
+
+    /* ── MINI APP CARDS ── */
+    .app-row-mini {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px;
+        border-radius: var(--radius);
+        text-decoration: none;
+        color: inherit;
+        transition: 0.2s;
+        border-bottom: 1px solid var(--border2);
+    }
+    .app-row-mini:last-child { border-bottom: none; }
+    .app-row-mini:hover { background: var(--bg3); transform: translateX(3px); }
+    .mini-img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; background: var(--bg4); }
+    .mini-info { flex: 1; min-width: 0; }
+    .mini-name { font-size: 13px; font-weight: 700; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mini-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+    .mini-dl { font-size: 16px; color: var(--accent); font-weight: bold; }
 
     /* ── PLATFORM CARDS ── */
     .platform-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 40px; }
     .platform-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; transition: all .2s; text-decoration: none; color: inherit; }
-    .platform-card:hover { border-color: var(--accent); background: var(--bg3); transform: translateY(-2px); color: inherit; }
-    .platform-card .pc-icon { font-size: 36px; flex-shrink: 0; }
-    .platform-card .pc-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; margin-bottom: 3px; }
-    .platform-card .pc-sub { font-size: 13px; color: var(--text3); }
+    .platform-card:hover { border-color: var(--accent); background: var(--bg3); transform: translateY(-2px); }
+    .platform-card .pc-icon { font-size: 36px; }
+    .platform-card .pc-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; }
     .platform-card.android .pc-title { color: var(--android); }
     .platform-card.windows .pc-title { color: #60b8ff; }
 
-    /* ── CATEGORY PILLS ── */
-    .home-cats-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
-    .home-cat-pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 24px; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; transition: all .2s; text-decoration: none; }
-    .home-cat-pill:hover { border-color: var(--accent); color: var(--accent2); background: var(--bg3); }
-
-    /* ── HOW IT WORKS ── */
-    .how-it-works { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 32px; margin-bottom: 48px; text-align: center; }
-    .how-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px; margin-top: 24px; }
-    .how-step { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .how-step-icon { width: 52px; height: 52px; border-radius: 50%; background: var(--bg4); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 22px; }
-    .how-step-title { font-family: var(--font-head); font-size: 14px; font-weight: 700; }
-    .how-step-sub { font-size: 12px; color: var(--text3); text-align: center; line-height: 1.5; }
-
-    /* ── TRUST BADGES ── */
-    .trust-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; justify-content: center; }
-    .trust-badge { display: flex; align-items: center; gap: 8px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; font-size: 13px; color: var(--text2); font-weight: 500; }
-
-    /* ── REQUEST CTA ── */
-    .request-cta { background: linear-gradient(135deg, #13102a 0%, #0d0a1e 100%); border: 1px solid var(--accent); border-radius: var(--radius-lg); padding: 32px; text-align: center; margin-bottom: 48px; }
-    .request-cta h2 { font-size: 22px; margin-bottom: 8px; }
-    .request-cta p { color: var(--text2); font-size: 15px; margin-bottom: 20px; }
-
-    /* ── POPULAR SEARCHES ── */
-    .popular-searches { margin-bottom: 40px; }
-    .popular-searches-title { font-size: 13px; color: var(--text3); margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
-    .ps-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-    .ps-tag { padding: 6px 14px; border-radius: 20px; background: var(--bg3); border: 1px solid var(--border2); font-size: 12px; color: var(--text2); cursor: pointer; transition: all .2s; text-decoration: none; }
-    .ps-tag:hover { border-color: var(--accent); color: var(--accent2); }
-
-    /* ── FAQ ── */
-    .faq-section { background: var(--bg2); padding: 36px; border-radius: var(--radius-lg); margin-bottom: 48px; }
-    .faq-item { margin-bottom: 18px; }
-    .faq-item:last-child { margin-bottom: 0; }
-    .faq-q { font-weight: 700; color: var(--text); margin-bottom: 5px; font-size: 15px; }
-    .faq-a { color: var(--text2); font-size: 14px; line-height: 1.6; }
-
-    /* ── NAVBAR REQUEST BTN ── */
-    .nav-request-btn { background: var(--accent); color: #fff !important; border-radius: var(--radius); padding: 6px 14px !important; font-size: 13px !important; }
-    .nav-request-btn:hover { background: var(--accent3) !important; color: #fff !important; }
-
     /* ── RESPONSIVE ── */
-    @media (max-width: 800px) {
-      .hero-dashboard { grid-template-columns: 1fr; text-align: center; padding: 36px 0 32px; }
-      .hero-tagline { margin: 0 auto; }
-      .hero-btns { justify-content: center; }
-      .stats-sidebar { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 14px; }
-      .stat-pill { flex: 1; min-width: 130px; }
+    @media (max-width: 1100px) {
+        .shelf-column { flex: 0 0 calc(50% - 10px); } /* Show 2 on tablets */
+    }
+    @media (max-width: 640px) {
+        .shelf-column { flex: 0 0 85%; } /* Show almost 1 on mobile to hint at scroll */
+        .platform-cards { grid-template-columns: 1fr; }
     }
   </style>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [{
-      "@type": "Question",
-      "name": "How to install APK files on Android?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Go to Settings > Security and enable 'Unknown Sources'. Then open the downloaded APK file and tap Install."
-      }
-    },{
-      "@type": "Question",
-      "name": "Are old versions of apps safe to download?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes, AppVault provides original APK files scanned for malware. Old versions are useful if newer updates are incompatible with your device."
-      }
-    },{
-      "@type": "Question",
-      "name": "Why download old versions of APKs?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sometimes new updates are slow, contain too many ads, or are incompatible with older Android phones. AppVault provides safe rollback versions for every app."
-      }
-    }]
-  }
-  </script>
 </head>
 <body>
 
@@ -190,31 +160,16 @@
       <a href="android.html">Android</a>
       <a href="windows.html">Windows</a>
       <a href="categories.html">Categories</a>
-      <a href="trending.html">Trending</a>
       <a href="request.html" class="nav-request-btn">&#128232; Request App</a>
     </nav>
-    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
-  </div>
-  <div class="navbar-mobile" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="android.html">Android</a>
-    <a href="windows.html">Windows</a>
-    <a href="categories.html">Categories</a>
-    <a href="trending.html">Trending</a>
-    <a href="request.html">&#128232; Request App</a>
-    <a href="about.html">About</a>
   </div>
 </nav>
-
-<div class="container">
-  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
-</div>
 
 <div class="container">
   <section class="hero-dashboard">
     <div class="hero-content">
       <h1>Download APK &amp; <span>Software Free</span></h1>
-      <p class="hero-tagline">Access the largest library of original APKs and Windows software. We specialize in <b>all old versions</b>, direct links, and verified safety. Optimized for users in Pakistan &amp; India.</p>
+      <p class="hero-tagline">Access the largest library of original APKs and Windows software. We specialize in <b>all old versions</b> with direct links and verified safety.</p>
       <div class="hero-btns">
         <a href="android.html" class="btn btn-primary">&#128241; Android Apps</a>
         <a href="windows.html" class="btn btn-secondary">&#128187; Windows PC</a>
@@ -222,22 +177,9 @@
     </div>
 
     <div class="stats-sidebar">
-      <div class="stat-pill" style="border-color: var(--android);">
-        <div class="lbl">Android APKs</div>
-        <div class="val" id="statAndroid">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: #60b8ff;">
-        <div class="lbl">Windows Apps</div>
-        <div class="val" id="statWindows">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: var(--accent2);">
-        <div class="lbl">Total Library</div>
-        <div class="val" id="statTotal">...</div>
-      </div>
-      <div class="stat-pill" style="border-color: var(--success);">
-        <div class="lbl">Safety</div>
-        <div class="val">100% Clean</div>
-      </div>
+      <div class="stat-pill" style="border-color: var(--android);"><div class="lbl">Android</div><div class="val" id="statAndroid">...</div></div>
+      <div class="stat-pill" style="border-color: #60b8ff;"><div class="lbl">Windows</div><div class="val" id="statWindows">...</div></div>
+      <div class="stat-pill" style="border-color: var(--accent2);"><div class="lbl">Total</div><div class="val" id="statTotal">...</div></div>
     </div>
   </section>
 </div>
@@ -246,63 +188,61 @@
   <div class="platform-cards">
     <a href="android.html" class="platform-card android">
       <div class="pc-icon">&#128241;</div>
-      <div>
-        <div class="pc-title">Android APKs</div>
-        <div class="pc-sub">All versions &bull; No account needed</div>
-      </div>
+      <div><div class="pc-title">Android APKs</div><div class="pc-sub">All versions available</div></div>
     </a>
     <a href="windows.html" class="platform-card windows">
       <div class="pc-icon">&#128187;</div>
-      <div>
-        <div class="pc-title">Windows Software</div>
-        <div class="pc-sub">Old &amp; latest releases &bull; Free</div>
-      </div>
+      <div><div class="pc-title">Windows Software</div><div class="pc-sub">Safe & Verified</div></div>
     </a>
-  </div>
-</div>
-
-<div class="container" style="margin-bottom: 40px;">
-  <div class="section-header">
-    <h2 class="section-title">&#128196; Browse by <span>Category</span></h2>
-    <a href="categories.html" class="section-link">All categories &rarr;</a>
-  </div>
-  <div id="homeCats" class="home-cats-row"></div>
-</div>
-
-<div class="container category-shelf-container">
-  <div class="shelf">
-    <div class="shelf-header">
-      <span class="shelf-title">💬 Social Media</span>
-      <a href="android.html?cat=social" class="section-link">View All &rarr;</a>
-    </div>
-    <div id="shelfSocial" class="shelf-scroll"></div>
-  </div>
-
-  <div class="shelf">
-    <div class="shelf-header">
-      <span class="shelf-title">🎮 Top Games</span>
-      <a href="android.html?cat=games" class="section-link">View All &rarr;</a>
-    </div>
-    <div id="shelfGames" class="shelf-scroll"></div>
-  </div>
-
-  <div class="shelf">
-    <div class="shelf-header">
-      <span class="shelf-title">🛠️ Essential Tools</span>
-      <a href="android.html?cat=tools" class="section-link">View All &rarr;</a>
-    </div>
-    <div id="shelfTools" class="shelf-scroll"></div>
   </div>
 </div>
 
 <div class="container">
-  <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+    <div class="section-header">
+        <h2 class="section-title">&#128196; Browse by <span>Category</span></h2>
+        <span style="font-size: 12px; color: var(--text3); text-transform: uppercase;">Scroll side for more &rarr;</span>
+    </div>
+    <div class="shelf-scroll-area">
+        <div class="shelf-grid">
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Social</span><a href="android.html?cat=social" class="section-link">View All</a></div>
+                <div id="shelfSocial" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Games</span><a href="android.html?cat=games" class="section-link">View All</a></div>
+                <div id="shelfGames" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Messaging</span><a href="android.html?cat=communication" class="section-link">View All</a></div>
+                <div id="shelfMessaging" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Entertainment</span><a href="android.html?cat=entertainment" class="section-link">View All</a></div>
+                <div id="shelfEntertainment" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Security</span><a href="android.html?cat=security" class="section-link">View All</a></div>
+                <div id="shelfSecurity" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Productivity</span><a href="android.html?cat=productivity" class="section-link">View All</a></div>
+                <div id="shelfProductivity" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Photography</span><a href="android.html?cat=photography" class="section-link">View All</a></div>
+                <div id="shelfPhotography" class="shelf-app-list"></div>
+            </div>
+            <div class="shelf-column">
+                <div class="shelf-header"><span class="shelf-title">Lifestyle</span><a href="android.html?cat=lifestyle" class="section-link">View All</a></div>
+                <div id="shelfLifestyle" class="shelf-app-list"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <section class="container" style="margin-bottom: 48px;">
   <div class="section-header">
     <h2 class="section-title">&#11088; Featured <span>Apps</span></h2>
-    <a href="android.html?filter=featured" class="section-link">View all featured &rarr;</a>
   </div>
   <div id="featuredApps" class="app-grid"></div>
 </section>
@@ -310,65 +250,17 @@
 <section class="container" style="margin-bottom: 48px;">
   <div class="section-header">
     <h2 class="section-title">&#128197; Recently <span>Added</span></h2>
-    <a href="android.html?sort=newest" class="section-link">View all new apps &rarr;</a>
   </div>
   <div id="latestApps" class="app-grid"></div>
 </section>
-
-<div class="container">
-  <div class="how-it-works">
-    <h2 class="section-title" style="margin-bottom: 4px;">How to <span>Download</span></h2>
-    <p style="color: var(--text3); font-size: 14px;">Takes less than 30 seconds. No account, no signup.</p>
-    <div class="how-steps">
-      <div class="how-step"><div class="how-step-icon">&#128269;</div><div class="how-step-title">1. Search App</div><div class="how-step-sub">Type the app name above</div></div>
-      <div class="how-step"><div class="how-step-icon">&#128196;</div><div class="how-step-title">2. Pick Version</div><div class="how-step-sub">Choose latest or old versions</div></div>
-      <div class="how-step"><div class="how-step-icon">&#8681;</div><div class="how-step-title">3. Download Free</div><div class="how-step-sub">Click the direct link</div></div>
-      <div class="how-step"><div class="how-step-icon">&#128241;</div><div class="how-step-title">4. Install APK</div><div class="how-step-sub">Enable Unknown Sources</div></div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="trust-row">
-    <div class="trust-badge"><span>&#128274;</span> 100% Free</div>
-    <div class="trust-badge"><span>&#10003;</span> No Registration</div>
-    <div class="trust-badge"><span>&#128241;</span> Original APKs</div>
-    <div class="trust-badge"><span>&#127758;</span> Works in PK &amp; IN</div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="faq-section">
-    <h2 class="section-title" style="margin-bottom: 20px;">Common <span>Questions</span></h2>
-    <div class="faq-item">
-      <div class="faq-q">Why download old versions of APKs?</div>
-      <div class="faq-a">Sometimes updates are slow or incompatible with older phones. We provide safe rollback versions.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-q">How to install APK files on Android?</div>
-      <div class="faq-a">Go to Settings &gt; Security and enable "Unknown Sources". Open the file and tap Install.</div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <div class="request-cta">
-    <h2>Can't find the app you need?</h2>
-    <p>Request any APK — we add it within 24 hours. Always free.</p>
-    <a href="request.html" class="btn btn-primary btn-lg">&#128232; Request an App</a>
-  </div>
-</div>
 
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="footer-logo">App<span>Vault</span></div>
-        <p>Free Android APK and Windows software downloads.</p>
+        <p>Your trusted source for APKs and Windows software.</p>
       </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; <span id="footerYear"></span> AppVault.
     </div>
   </div>
 </footer>
@@ -378,48 +270,45 @@
 <script>
 document.addEventListener("DOMContentLoaded", async function() {
   try {
-    var all = await window.AppVaultDB.getApps();
-    var featured = await window.AppVaultDB.getFeaturedApps();
-
-    // Stats
+    const all = await window.AppVaultDB.getApps();
+    
+    // Update Stats
     document.getElementById("statTotal").textContent = all.length;
-    document.getElementById("statAndroid").textContent = all.filter(function(a){ return a.platform === "android"; }).length;
-    document.getElementById("statWindows").textContent = all.filter(function(a){ return a.platform === "windows"; }).length;
+    document.getElementById("statAndroid").textContent = all.filter(a => a.platform === "android").length;
+    document.getElementById("statWindows").textContent = all.filter(a => a.platform === "windows").length;
 
-    // Build mini cards for shelves
-    var buildMiniCard = function(app) {
-      return '<a href="app.html?id=' + app.id + '" class="app-card-mini">' +
-        '<img src="' + (app.icon || 'icon-default.png') + '" class="mini-icon" alt="' + app.name + '" onerror="this.src=\'icon-default.png\'">' +
-        '<div class="mini-info">' +
-          '<span class="mini-name">' + app.name + '</span>' +
-          '<span class="mini-meta">v' + (app.version || 'Latest') + ' &bull; ' + (app.rating || '4.5') + '★</span>' +
-        '</div>' +
-        '<div class="mini-dl">↓</div>' +
-      '</a>';
+    // Mini App Card Template
+    const buildMini = (app) => `
+        <a href="app.html?id=${app.id}" class="app-row-mini">
+            <img src="${app.icon || 'icon-default.png'}" class="mini-img" alt="${app.name}" onerror="this.src='icon-default.png'">
+            <div class="mini-info">
+                <span class="mini-name">${app.name}</span>
+                <span class="mini-meta">${app.downloads || '500K+'} • ${app.rating || '4.5'}★</span>
+            </div>
+            <div class="mini-dl">↓</div>
+        </a>`;
+
+    // Category Logic
+    const fillShelf = (id, cat) => {
+        const apps = all.filter(a => a.category.toLowerCase() === cat.toLowerCase()).slice(0, 10);
+        const el = document.getElementById(id);
+        if(el) el.innerHTML = apps.length ? apps.map(buildMini).join('') : '<p style="padding:15px; font-size:12px; color:var(--text3);">No apps found.</p>';
     };
 
-    var socialApps = all.filter(function(a){ return a.category === 'social'; }).slice(0, 8);
-    var gameApps   = all.filter(function(a){ return a.category === 'games';  }).slice(0, 8);
-    var toolApps   = all.filter(function(a){ return a.category === 'tools';  }).slice(0, 8);
+    fillShelf("shelfSocial", "social");
+    fillShelf("shelfGames", "games");
+    fillShelf("shelfMessaging", "communication");
+    fillShelf("shelfEntertainment", "entertainment");
+    fillShelf("shelfSecurity", "security");
+    fillShelf("shelfProductivity", "productivity");
+    fillShelf("shelfPhotography", "photography");
+    fillShelf("shelfLifestyle", "lifestyle");
 
-    document.getElementById("shelfSocial").innerHTML = socialApps.length ? socialApps.map(buildMiniCard).join('') : '<p style="padding:10px;color:var(--text3)">Coming soon</p>';
-    document.getElementById("shelfGames").innerHTML  = gameApps.length  ? gameApps.map(buildMiniCard).join('')  : '<p style="padding:10px;color:var(--text3)">Coming soon</p>';
-    document.getElementById("shelfTools").innerHTML  = toolApps.length  ? toolApps.map(buildMiniCard).join('')  : '<p style="padding:10px;color:var(--text3)">Coming soon</p>';
+    // Standard Grids
+    document.getElementById("featuredApps").innerHTML = all.filter(a => a.featured === 'yes').slice(0, 4).map(buildAppCard).join("");
+    document.getElementById("latestApps").innerHTML = all.slice(0, 4).map(buildAppCard).join("");
 
-    // Category pills
-    var cats = await window.AppVaultDB.getAllCategories();
-    if (cats.length > 0) {
-      document.getElementById("homeCats").innerHTML = cats.slice(0, 10).map(function(c) {
-        return '<a href="android.html?cat=' + encodeURIComponent(c) + '" class="home-cat-pill">' + c.charAt(0).toUpperCase() + c.slice(1) + '</a>';
-      }).join("");
-    }
-
-    // Grid sections
-    if (featured.length) document.getElementById("featuredApps").innerHTML = featured.slice(0, 4).map(buildAppCard).join("");
-    var latest = await window.AppVaultDB.getRecentApps(4);
-    if (latest.length) document.getElementById("latestApps").innerHTML = latest.map(buildAppCard).join("");
-
-  } catch(e) { console.error(e); }
+  } catch(e) { console.error("Load failed", e); }
 });
 </script>
 </body>
