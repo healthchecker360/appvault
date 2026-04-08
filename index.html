@@ -4,88 +4,130 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AppVault — Download Free APK & Windows Software</title>
-
+<title>AppVault — Premium APK Store</title>
 <link rel="stylesheet" href="style.css">
 
 <style>
 
-/* ───────── FEATURED HORIZONTAL ───────── */
+/* ───────── GLOBAL ───────── */
+body {
+  background: linear-gradient(180deg, #0c0b1f, #090816);
+}
+
+/* ───────── NAVBAR GLASS ───────── */
+.navbar {
+  backdrop-filter: blur(12px);
+  background: rgba(20,20,40,0.6);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ───────── FEATURED CAROUSEL ───────── */
 .featured-scroll {
   overflow-x: auto;
-  padding-bottom: 10px;
+  scroll-snap-type: x mandatory;
 }
-.featured-scroll::-webkit-scrollbar { display: none; }
-
 .featured-row {
   display: flex;
-  gap: 16px;
-  width: max-content;
+  gap: 18px;
 }
 .featured-row .app-card {
-  min-width: 240px;
+  min-width: 260px;
+  scroll-snap-align: start;
+  background: linear-gradient(145deg,#14122e,#0f0d22);
+  border-radius: 18px;
+  padding: 14px;
+  transition: 0.3s;
+}
+.featured-row .app-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-/* ───────── CATEGORY COLUMNS ───────── */
+/* ───────── CATEGORY SCROLL ───────── */
 .cat-scroll {
   overflow-x: auto;
-  padding-bottom: 20px;
+  scroll-snap-type: x mandatory;
 }
-.cat-scroll::-webkit-scrollbar { display: none; }
-
 .cat-row {
   display: flex;
-  gap: 16px;
-  width: max-content;
+  gap: 18px;
 }
 
+/* Column */
 .cat-col {
-  width: 250px;
-  height: 380px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
+  width: 260px;
+  height: 420px;
+  scroll-snap-align: start;
+  background: linear-gradient(145deg,#14122e,#0f0d22);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.05);
+  overflow: hidden;
+  transition: 0.3s;
+}
+.cat-col:hover {
+  transform: translateY(-5px);
 }
 
+/* Header */
 .cat-head {
-  padding: 12px;
+  padding: 14px;
   font-weight: 700;
-  border-bottom: 1px solid var(--border);
-  color: var(--accent2);
+  font-size: 14px;
+  background: linear-gradient(90deg,#7c4dff,#00e5ff);
+  -webkit-background-clip: text;
+  color: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
+/* Scroll inside */
 .cat-list {
-  flex: 1;
   overflow-y: auto;
+  height: 100%;
   padding: 8px;
 }
 
+/* App Row */
 .cat-app {
   display: flex;
-  align-items: center;
   gap: 10px;
-  padding: 6px;
-  border-bottom: 1px solid var(--border2);
-  text-decoration: none;
-  color: inherit;
+  padding: 8px;
+  border-radius: 10px;
+  transition: 0.2s;
 }
-
-.cat-app:hover { background: var(--bg3); }
+.cat-app:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(4px);
+}
 
 .cat-app img {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
 }
 
-.cat-name { font-size: 13px; font-weight: 600; }
-.cat-meta { font-size: 10px; color: var(--text3); }
+.cat-name {
+  font-size: 13px;
+  font-weight: 600;
+}
 
-/* Mobile */
-@media (max-width: 600px) {
-  .cat-col { width: 45vw; }
+.cat-meta {
+  font-size: 10px;
+  color: #aaa;
+}
+
+/* ───────── SCROLLBAR PREMIUM ───────── */
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg,#7c4dff,#00e5ff);
+  border-radius: 10px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .cat-col { width: 70vw; }
 }
 
 </style>
@@ -95,30 +137,27 @@
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo">
-      <div class="logo-icon">A</div> App<span>Vault</span>
-    </a>
+  <div class="container">
+    <h2>AppVault</h2>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="container">
-  <h1>Download APK & Software Free</h1>
+  <h1>🚀 Discover Apps Like Never Before</h1>
 </div>
 
 <!-- FEATURED -->
 <div class="container">
-  <h2>⭐ Featured Apps</h2>
-
+  <h2>⭐ Featured</h2>
   <div class="featured-scroll">
     <div id="featuredApps" class="featured-row"></div>
   </div>
 </div>
 
-<!-- CATEGORY COLUMNS -->
+<!-- CATEGORY -->
 <div class="container">
-  <h2>📂 Categories</h2>
+  <h2>📂 Explore Categories</h2>
 
   <div class="cat-scroll">
     <div class="cat-row">
@@ -158,10 +197,8 @@
 </div>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <p>© AppVault</p>
-  </div>
+<footer class="container">
+  <p>© AppVault Premium UI</p>
 </footer>
 
 <script src="sheets-loader.js"></script>
@@ -170,42 +207,39 @@
 <script>
 document.addEventListener("DOMContentLoaded", async function() {
 
-  try {
-    var all = await window.AppVaultDB.getApps();
+  const all = await window.AppVaultDB.getApps();
 
-    /* FEATURED */
-    var featured = all.filter(a => a.featured === 'yes').slice(0, 10);
-    document.getElementById("featuredApps").innerHTML =
-      featured.map(buildAppCard).join("");
+  /* FEATURED */
+  document.getElementById("featuredApps").innerHTML =
+    all.filter(a => a.featured === 'yes').slice(0,10).map(buildAppCard).join("");
 
-    /* CATEGORY UI */
-    var buildCatApp = function(app) {
-      return `
-        <a href="app.html?id=${app.id}" class="cat-app">
-          <img src="${app.icon || 'icon-default.png'}">
-          <div>
-            <div class="cat-name">${app.name}</div>
-            <div class="cat-meta">${app.version || 'Latest'}</div>
-          </div>
-        </a>`;
-    };
+  /* CATEGORY */
+  const build = app => `
+    <a href="app.html?id=${app.id}" class="cat-app">
+      <img src="${app.icon}">
+      <div>
+        <div class="cat-name">${app.name}</div>
+        <div class="cat-meta">${app.rating || "4.5"} ★</div>
+      </div>
+    </a>`;
 
-    var fill = function(id, cat) {
-      var list = all.filter(a => a.category === cat).slice(0, 12);
-      document.getElementById(id).innerHTML =
-        list.length ? list.map(buildCatApp).join("") : "No apps";
-    };
+  const fill = (id, cat) => {
+    document.getElementById(id).innerHTML =
+      all.filter(a => a.category === cat).slice(0,12).map(build).join("");
+  };
 
-    fill("colSocial", "social");
-    fill("colMessaging", "communication");
-    fill("colGames", "games");
-    fill("colSecurity", "security");
-    fill("colTools", "tools");
-    fill("colProductivity", "productivity");
+  fill("colSocial","social");
+  fill("colMessaging","communication");
+  fill("colGames","games");
+  fill("colSecurity","security");
+  fill("colTools","tools");
+  fill("colProductivity","productivity");
 
-  } catch(e) {
-    console.error(e);
-  }
+  /* AUTO SLIDE FEATURED */
+  let scroll = document.querySelector(".featured-scroll");
+  setInterval(() => {
+    scroll.scrollBy({ left: 300, behavior: "smooth" });
+  }, 3000);
 
 });
 </script>
