@@ -868,3 +868,62 @@ body.urdu-mode .filter-bar { flex-direction: row-reverse; }
 
 /* === SELECTION === */
 ::selection { background: rgba(108,92,231,0.3); color: #fff; }
+/* ============================================================ */
+/*  FEATURED APPS + SCROLLABLE CATEGORIES SECTION             */
+/* ============================================================ */
+
+/* Featured Apps Section */
+.featured-apps .app-grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.featured-apps .app-grid .app-card {
+  flex: 0 0 150px;
+  background: var(--bg2);
+  color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* Scrollable Categories Section */
+.categories-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px 0;
+}
+.category-scroll {
+  display: flex;
+  gap: 20px;
+}
+.category {
+  background: var(--bg2);
+  color: #fff;
+  min-width: 120px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+.category p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+.category .view-all {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--accent2);
+  text-decoration: none;
+}
+/* Horizontal scroll snap for categories */
+.category-scroll {
+  scroll-snap-type: x mandatory;
+}
+.category {
+  scroll-snap-align: start;
+}
