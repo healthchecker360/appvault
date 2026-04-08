@@ -1,353 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Download App APK | AppVault</title>
-  <meta name="description" id="pageDesc" content="Download APK free on AppVault.">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* Version row click highlight */
-    .versions-table tbody tr { cursor: pointer; transition: background 0.15s; }
-    .versions-table tbody tr.selected td { background: rgba(108,92,231,0.13) !important; }
-    .versions-table tbody tr:hover td   { background: var(--bg3); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    /* Selected version download panel */
-    #selectedVersionPanel {
-      display: none;
-      background: linear-gradient(135deg, #13102a 0%, #0d0a1e 100%);
-      border: 1px solid var(--accent);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      margin-bottom: 16px;
-      animation: fadeIn .2s ease;
-    }
-    #selectedVersionPanel.visible { display: block; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
-    .svp-label { font-size: 13px; color: var(--accent2); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .06em; }
-    .svp-version { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 4px; }
-    .svp-meta { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
-    .svp-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-    .svp-close { float: right; background: none; border: none; color: var(--text3); cursor: pointer; font-size: 18px; margin-top: -4px; }
-    .svp-close:hover { color: #fff; }
+<title>AppVault — Premium APK & Software Hub</title>
 
-    /* Clickable version row indicator */
-    .version-click-hint { font-size: 12px; color: var(--text3); margin-bottom: 8px; font-style: italic; }
-  </style>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ================= PREMIUM FEATURED SLIDER ================= */
+.featured-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.featured-scroll::-webkit-scrollbar { display: none; }
+.featured-scroll .app-card {
+  min-width: 260px;
+}
+
+/* ================= CATEGORY COLUMN SYSTEM ================= */
+.category-wrapper {
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.category-wrapper::-webkit-scrollbar { display: none; }
+
+.category-flex {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+}
+
+.category-col {
+  width: 260px;
+  height: 380px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: 0.25s;
+}
+
+.category-col:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.category-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+  color: var(--accent2);
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* mini app row */
+.mini-app {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border2);
+  transition: 0.2s;
+}
+.mini-app:hover {
+  background: var(--bg3);
+  transform: translateX(4px);
+}
+
+.mini-app img {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+}
+
+.mini-info {
+  flex: 1;
+}
+
+.mini-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.mini-meta {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* MOBILE FIX */
+@media(max-width:600px){
+  .category-col{
+    width: 40vw;
+    min-width: 140px;
+  }
+}
+
+</style>
 </head>
+
 <body>
+
+<!-- NAVBAR -->
 <nav class="navbar">
   <div class="navbar-inner">
-    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
-    <div class="navbar-search"><span class="search-icon">&#128269;</span><input type="text" id="navSearch" placeholder="Search apps..."></div>
-    <nav class="navbar-nav">
-      <a href="index.html">Home</a><a href="android.html">Android</a><a href="windows.html">Windows</a>
-      <a href="categories.html">Categories</a><a href="trending.html">Trending</a>
-    </nav>
-    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
-  </div>
-  <div class="navbar-mobile" id="mobileMenu">
-    <a href="index.html">Home</a><a href="android.html">Android</a><a href="windows.html">Windows</a>
-    <a href="categories.html">Categories</a><a href="trending.html">Trending</a>
+    <a href="#" class="navbar-logo">App<span>Vault</span></a>
+
+    <div class="navbar-search">
+      <input type="text" id="navSearch" placeholder="Search apps...">
+    </div>
+
+    <div class="navbar-nav">
+      <a href="#">Home</a>
+      <a href="#">Android</a>
+      <a href="#">Windows</a>
+      <a href="#">Categories</a>
+      <a href="#" class="btn btn-primary">Request</a>
+    </div>
   </div>
 </nav>
 
-<!-- AD: After navbar -->
-<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Download APK & Software</h1>
+    <p>All versions • Safe • Fast • No login required</p>
+  </div>
+</section>
 
-<!-- APP HEADER -->
-<div class="container" id="appHeader"></div>
+<!-- ================= FEATURED (NOW PREMIUM HORIZONTAL) ================= -->
+<section class="container">
+  <div class="section-header">
+    <h2 class="section-title">⭐ Featured Apps</h2>
+  </div>
 
-<!-- APP DESCRIPTION -->
-<div class="container" id="appDesc"></div>
+  <div id="featuredApps" class="featured-scroll"></div>
+</section>
 
-<!-- AD: Between description and versions -->
-<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+<!-- ================= CATEGORY (NEW COLUMN SYSTEM) ================= -->
+<section class="container">
+  <div class="section-header">
+    <h2 class="section-title">📂 Categories</h2>
+  </div>
 
-<!-- VERSIONS TABLE -->
-<div class="container" id="versionsSection"></div>
+  <div class="category-wrapper">
+    <div class="category-flex">
 
-<!-- AD: After versions -->
-<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+      <div class="category-col">
+        <div class="category-header">Entertainment</div>
+        <div id="catEntertainment" class="category-list"></div>
+      </div>
 
-<!-- ROLLBACK GUIDE -->
-<div class="container" id="rollbackSection"></div>
+      <div class="category-col">
+        <div class="category-header">Games</div>
+        <div id="catGames" class="category-list"></div>
+      </div>
 
-<!-- PERMISSIONS -->
-<div class="container" id="permissionsSection"></div>
+      <div class="category-col">
+        <div class="category-header">Social</div>
+        <div id="catSocial" class="category-list"></div>
+      </div>
 
-<!-- SIMILAR APPS -->
-<div class="container" id="similarSection"></div>
+      <div class="category-col">
+        <div class="category-header">Messaging</div>
+        <div id="catMessaging" class="category-list"></div>
+      </div>
 
+      <div class="category-col">
+        <div class="category-header">Security</div>
+        <div id="catSecurity" class="category-list"></div>
+      </div>
+
+      <div class="category-col">
+        <div class="category-header">Photography</div>
+        <div id="catPhotography" class="category-list"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
-    <div class="footer-bottom">
-      <div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content. All links point to third-party storage.</div>
-    </div>
+    <div class="footer-legal">© AppVault</div>
   </div>
 </footer>
 
+<!-- SCRIPTS -->
 <script src="sheets-loader.js"></script>
 <script src="main.js"></script>
+
 <script>
-var PERMISSION_MEANINGS = {
-  "INTERNET":               { icon: "&#127760;", name: "Internet Access",        desc: "This app can connect to the internet to load content, sync data, or show ads." },
-  "CAMERA":                 { icon: "&#128247;", name: "Camera",                 desc: "This app can take photos or record video using your device camera." },
-  "READ_CONTACTS":          { icon: "&#128101;", name: "Read Contacts",          desc: "This app can read names and phone numbers saved in your contact list." },
-  "WRITE_CONTACTS":         { icon: "&#128101;", name: "Edit Contacts",          desc: "This app can add or change contacts on your device." },
-  "ACCESS_FINE_LOCATION":   { icon: "&#128205;", name: "Precise Location (GPS)", desc: "This app can see your exact location using GPS. This drains battery faster." },
-  "ACCESS_COARSE_LOCATION": { icon: "&#128205;", name: "Approximate Location",   desc: "This app can see your general area using Wi-Fi or mobile network." },
-  "READ_EXTERNAL_STORAGE":  { icon: "&#128193;", name: "Read Files & Photos",    desc: "This app can read files, photos, and documents saved on your device." },
-  "WRITE_EXTERNAL_STORAGE": { icon: "&#128190;", name: "Save Files",             desc: "This app can save files and photos to your device storage." },
-  "RECORD_AUDIO":           { icon: "&#127908;", name: "Microphone",             desc: "This app can record sound using your microphone. Used for calls or voice search." },
-  "SEND_SMS":               { icon: "&#128172;", name: "Send SMS",               desc: "This app can send text messages. This may cost money on some plans." },
-  "READ_SMS":               { icon: "&#128172;", name: "Read SMS",               desc: "This app can read your text messages." },
-  "CALL_PHONE":             { icon: "&#128222;", name: "Make Phone Calls",       desc: "This app can make phone calls directly without you dialing." },
-  "READ_PHONE_STATE":       { icon: "&#128222;", name: "Device Info",            desc: "This app can read your phone number and device ID." },
-  "BLUETOOTH":              { icon: "&#128268;", name: "Bluetooth",              desc: "This app can connect to nearby Bluetooth devices like headphones or speakers." },
-  "VIBRATE":                { icon: "&#128267;", name: "Vibrate",                desc: "This app can make your phone vibrate for notifications." },
-  "RECEIVE_BOOT_COMPLETED": { icon: "&#128260;", name: "Start on Boot",          desc: "This app starts automatically when you turn on your phone." },
-  "WAKE_LOCK":              { icon: "&#128336;", name: "Prevent Sleep",          desc: "This app can keep your screen or processor awake in the background." },
-  "BILLING":                { icon: "&#128176;", name: "In-App Purchases",       desc: "This app can offer paid items or subscriptions inside the app." },
-  "NOTIFICATIONS":          { icon: "&#128276;", name: "Notifications",          desc: "This app can send you notification messages on your screen." }
-};
+document.addEventListener("DOMContentLoaded", async () => {
 
-function getPermissionInfo(perm) {
-  var key = perm.replace("android.permission.", "").toUpperCase();
-  return PERMISSION_MEANINGS[key] || { icon: "&#128274;", name: perm.replace("android.permission.", ""), desc: "This permission allows the app to access a feature on your device." };
-}
+  const all = await window.AppVaultDB.getApps();
 
-// ---- Selected version panel ----
-function showSelectedVersion(v, shareText, isAndroid) {
-  var panel = document.getElementById("selectedVersionPanel");
-  if (!panel) return;
-  var dlBtn     = v.download_url ? '<a href="' + v.download_url + '" target="_blank" class="btn btn-success btn-lg">&#8681; Free Download (TeraBox)</a>' : '';
-  var mirrorBtn = v.mirror_url   ? '<a href="' + v.mirror_url   + '" target="_blank" class="btn btn-secondary btn-lg">&#9889; Fast Mirror (Mega)</a>'   : '';
-  var waBtn     = '<a href="https://wa.me/?text=' + shareText + '" target="_blank" class="btn btn-whatsapp btn-lg">&#128172; Share</a>';
-  if (!dlBtn && !mirrorBtn) {
-    panel.classList.remove("visible");
-    return;
-  }
-  var minLabel = isAndroid ? "Min Android" : "Min Windows";
-  var minVal   = isAndroid ? (v.min_android || "—") : (v.min_windows || "—");
-  panel.innerHTML =
-    '<button class="svp-close" onclick="document.getElementById(\'selectedVersionPanel\').classList.remove(\'visible\');document.querySelectorAll(\'.versions-table tbody tr\').forEach(function(r){r.classList.remove(\'selected\');});">&#x2715;</button>'
-    + '<div class="svp-label">&#128230; Selected Version</div>'
-    + '<div class="svp-version">' + v.version + (v.label ? ' <span style="font-size:14px;color:var(--text3);font-weight:400;">— ' + v.label + '</span>' : '') + '</div>'
-    + '<div class="svp-meta">'
-    + (v.release_date ? '&#128197; ' + v.release_date + '&nbsp;&nbsp;' : '')
-    + (v.file_size    ? '&#128190; ' + v.file_size    + '&nbsp;&nbsp;' : '')
-    + minLabel + ': ' + minVal
-    + '</div>'
-    + '<div class="svp-btns">' + dlBtn + mirrorBtn + waBtn + '</div>'
-    + (v.changelog ? '<div style="margin-top:12px;font-size:13px;color:var(--text2);border-top:1px solid var(--border);padding-top:10px;"><strong style="color:var(--text);">Changelog:</strong> ' + v.changelog + '</div>' : '');
-  panel.classList.add("visible");
-  panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-}
-
-async function loadAppPage() {
-  var id = getParam("id");
-  if (!id) {
-    document.getElementById("appHeader").innerHTML = '<div class="error-state"><p>No app ID provided. <a href="index.html">Go home</a></p></div>';
-    return;
+  // ===== MINI ROW =====
+  function mini(app){
+    return `
+      <a href="app.html?id=${app.id}" class="mini-app">
+        <img src="${app.icon}">
+        <div class="mini-info">
+          <div class="mini-name">${app.name}</div>
+          <div class="mini-meta">${app.downloads || '100K+'}</div>
+        </div>
+      </a>
+    `;
   }
 
-  try {
-    var app = await window.AppVaultDB.getAppById(id);
-    if (!app) {
-      document.getElementById("appHeader").innerHTML = '<div class="error-state"><p>App not found. <a href="index.html">Go home</a></p></div>';
-      return;
-    }
-
-    var platform  = (app.platform || "android").toLowerCase();
-    var isAndroid = platform === "android";
-
-    document.getElementById("pageTitle").textContent  = "Download " + app.name + " APK Latest + Old Versions Free | AppVault";
-    document.getElementById("pageDesc").setAttribute("content", "Download " + app.name + " APK free. Latest version and all old versions. No registration. Direct download links.");
-
-    var iconHTML   = getAppIconHTML(app, 'app-page-icon', 'app-page-icon-fallback');
-    var shareText  = encodeURIComponent("Download " + app.name + " APK free on AppVault! " + window.location.href);
-    var whatsappURL = "https://wa.me/?text=" + shareText;
-    var versions   = await window.AppVaultDB.getVersionsForApp(id);
-
-    var platformBadge = isAndroid
-      ? '<span class="badge badge-android">Android APK</span>'
-      : '<span class="badge badge-windows">Windows</span>';
-
-    // Primary download button — use latest version with a link, or fallback
-    var latestWithLink = versions.find(function(v) { return v.download_url; });
-    var primaryBtn = latestWithLink
-      ? '<a href="' + latestWithLink.download_url + '" target="_blank" class="btn btn-success btn-lg">&#8681; Free Download</a>'
-      : (versions.length > 0
-          ? '<a href="#versions" class="btn btn-primary btn-lg">&#8595; View Versions</a>'
-          : '<span style="color:var(--text3);font-size:14px;">No download available yet</span>');
-
-    document.getElementById("appHeader").innerHTML =
-      '<div class="app-page-header">'
-      + iconHTML
-      + '<div>'
-      + '<h1 class="app-page-title">' + app.name + '</h1>'
-      + '<div class="app-page-developer">by ' + (app.developer || "Unknown Developer") + '</div>'
-      + '<div class="app-page-meta">'
-      + '<div class="app-page-stat"><strong>' + (app.rating || "N/A") + ' &#9733;</strong><span>Rating</span></div>'
-      + '<div class="app-page-stat"><strong>' + (app.downloads || "N/A") + '</strong><span>Downloads</span></div>'
-      + '<div class="app-page-stat"><strong>' + (app.license || "Free") + '</strong><span>License</span></div>'
-      + platformBadge
-      + '<span class="badge badge-free">Free</span>'
-      + '</div>'
-      + '<div class="app-page-actions">'
-      + primaryBtn
-      + '<a href="' + whatsappURL + '" target="_blank" class="btn btn-whatsapp">&#128172; Share</a>'
-      + '<a href="apps-like.html?id=' + app.id + '" class="btn btn-secondary">Similar Apps</a>'
-      + '</div>'
-      + '</div></div>';
-
-    // --- DESCRIPTION ---
-    document.getElementById("appDesc").innerHTML =
-      '<div class="info-card">'
-      + '<h2 style="font-size:18px;margin-bottom:12px;">About ' + app.name + '</h2>'
-      + '<p style="color:var(--text2);line-height:1.8;">' + (app.description || "No description available.") + '</p>'
-      + (app.features ? '<h3 style="font-size:15px;margin:16px 0 8px;">Key Features</h3><ul style="display:flex;flex-direction:column;gap:6px;">'
-          + app.features.replace(/;/g,'|').split("|").map(function(f) {
-              return '<li style="color:var(--text2);font-size:14px;padding-left:16px;position:relative;"><span style="position:absolute;left:0;color:var(--accent2);">&#10003;</span>' + f.trim() + '</li>';
-            }).join("") + '</ul>' : '')
-      + '</div>';
-
-    // --- VERSIONS TABLE ---
-    if (versions.length > 0) {
-      var tableRows = versions.map(function(v, i) {
-        var hasDl     = v.download_url && v.download_url.trim() !== "";
-        var hasMirror = v.mirror_url   && v.mirror_url.trim() !== "";
-        var dlText    = hasDl     ? '&#8595; Download' : '';
-        var mirrorText = hasMirror ? '&#9889; Mirror'   : '';
-        var actionText = (hasDl || hasMirror) ? '&#128077; Click to select' : '<span style="color:var(--text3);font-size:12px;">No link yet</span>';
-        return '<tr data-idx="' + i + '" onclick="selectVersionRow(this,' + i + ')">'
-          + '<td><span class="version-tag">' + v.version + '</span>'
-          + (i === 0 ? '<span class="version-latest" style="margin-left:8px;">&#10003; Latest</span>' : '') + '</td>'
-          + '<td style="color:var(--text2);font-size:13px;">' + (v.label || '') + '</td>'
-          + '<td style="color:var(--text3);font-size:13px;">' + (v.release_date || '—') + '</td>'
-          + '<td style="color:var(--text3);font-size:13px;">' + (v.file_size || '—') + '</td>'
-          + '<td style="color:var(--text3);font-size:13px;">' + (isAndroid ? (v.min_android || '—') : (v.min_windows || '—')) + '</td>'
-          + '<td style="font-size:13px;">' + actionText + '</td>'
-          + '</tr>';
-      }).join("");
-
-      var latestV = versions[0];
-      document.getElementById("versionsSection").innerHTML =
-        '<div id="versions" class="info-card">'
-        + '<div class="info-card-title"><div class="icon">&#128230;</div>All Versions</div>'
-
-        // Latest version quick-download block
-        + '<div class="download-section" style="margin:0 0 16px;">'
-        + '<div class="download-section-title">Latest Version: ' + (latestV.version || "") + '</div>'
-        + '<div class="download-section-sub">Released ' + (latestV.release_date || "N/A") + ' &bull; ' + (latestV.file_size || "") + '</div>'
-        + '<div class="download-btns">'
-        + (latestV.download_url ? '<a href="' + latestV.download_url + '" target="_blank" class="btn btn-success btn-lg">&#8681; Free Download (TeraBox)</a>' : '')
-        + (latestV.mirror_url   ? '<a href="' + latestV.mirror_url   + '" target="_blank" class="btn btn-secondary btn-lg">&#9889; Fast Mirror (Mega)</a>'   : '')
-        + '</div>'
-        + '<div class="vpn-banner"><div class="vpn-icon">&#128737;</div><div><strong>Downloading from outside Pakistan/India?</strong>Use a VPN for faster speeds and unrestricted access.</div><a href="#" onclick="showToast(\'VPN affiliate link — add yours here!\')">Get VPN Free</a></div>'
-        + '<div class="whatsapp-share-row"><span>Found this useful? Share with friends:</span><a href="https://wa.me/?text=' + shareText + '" target="_blank" class="btn btn-whatsapp btn-sm">&#128172; Share on WhatsApp</a></div>'
-        + '</div>'
-
-        // Selected version panel (hidden until user clicks a row)
-        + '<div id="selectedVersionPanel"></div>'
-
-        // Versions table
-        + '<p class="version-click-hint">&#128161; Click any row below to see its download buttons</p>'
-        + '<div class="versions-table-wrap"><table class="versions-table"><thead><tr><th>Version</th><th>Label</th><th>Release Date</th><th>File Size</th><th>' + (isAndroid ? "Min Android" : "Min Windows") + '</th><th>Action</th></tr></thead><tbody>' + tableRows + '</tbody></table></div>'
-        + '</div>';
-
-      // Attach version data to window for the click handler
-      window._appVersions   = versions;
-      window._appShareText  = shareText;
-      window._appIsAndroid  = isAndroid;
-
-    } else {
-      document.getElementById("versionsSection").innerHTML =
-        '<div class="info-card"><p style="color:var(--text3);">No versions added yet. Check back soon.</p></div>';
-    }
-
-    // --- ROLLBACK GUIDE ---
-    if (app.rollback_guide) {
-      var steps = app.rollback_guide.replace(/;/g,'|').split("|").map(function(s){ return s.trim(); }).filter(Boolean);
-      document.getElementById("rollbackSection").innerHTML =
-        '<div class="info-card">'
-        + '<div class="info-card-title"><div class="icon">&#8635;</div>How to Downgrade ' + app.name + '</div>'
-        + '<p style="color:var(--text2);font-size:14px;margin-bottom:16px;">Follow these steps to install an older version of ' + app.name + ' on your device:</p>'
-        + '<div class="rollback-steps">'
-        + steps.map(function(step, i){ return '<div class="rollback-step"><div class="rollback-step-num">' + (i+1) + '</div><div class="rollback-step-text">' + step + '</div></div>'; }).join("")
-        + '</div></div>';
-    } else {
-      document.getElementById("rollbackSection").innerHTML =
-        '<div class="info-card">'
-        + '<div class="info-card-title"><div class="icon">&#8635;</div>How to Downgrade ' + app.name + '</div>'
-        + '<div class="rollback-steps">'
-        + '<div class="rollback-step"><div class="rollback-step-num">1</div><div class="rollback-step-text">Go to Settings on your Android device, then tap on Apps or Application Manager.</div></div>'
-        + '<div class="rollback-step"><div class="rollback-step-num">2</div><div class="rollback-step-text">Find ' + app.name + ' in the list and tap Uninstall to remove the current version.</div></div>'
-        + '<div class="rollback-step"><div class="rollback-step-num">3</div><div class="rollback-step-text">Before installing the old version, go to Settings &rarr; Security and enable "Install from Unknown Sources" or "Allow from this source".</div></div>'
-        + '<div class="rollback-step"><div class="rollback-step-num">4</div><div class="rollback-step-text">Download the old version APK you want from the versions table above.</div></div>'
-        + '<div class="rollback-step"><div class="rollback-step-num">5</div><div class="rollback-step-text">Open the downloaded APK file from your notifications or file manager and tap Install.</div></div>'
-        + '<div class="rollback-step"><div class="rollback-step-num">6</div><div class="rollback-step-text">Once installed, you may want to disable automatic updates in the Play Store so the app does not update itself automatically.</div></div>'
-        + '</div></div>';
-    }
-
-    // --- PERMISSIONS ---
-    if (app.permissions) {
-      var perms = app.permissions.replace(/;/g,'|').split("|").map(function(p){ return p.trim(); }).filter(Boolean);
-      document.getElementById("permissionsSection").innerHTML =
-        '<div class="info-card">'
-        + '<div class="info-card-title"><div class="icon">&#128274;</div>Permissions Explained</div>'
-        + '<p style="color:var(--text2);font-size:14px;margin-bottom:14px;">These are the permissions ' + app.name + ' asks for, explained in simple language:</p>'
-        + '<div class="permissions-list">'
-        + perms.map(function(p) {
-            var info = getPermissionInfo(p);
-            return '<div class="permission-item"><div class="permission-icon">' + info.icon + '</div><div><div class="permission-name">' + info.name + '</div><div class="permission-desc">' + info.desc + '</div></div></div>';
-          }).join("")
-        + '</div></div>';
-    }
-
-    // --- SIMILAR APPS ---
-    var similar = await window.AppVaultDB.getSimilarApps(id, 4);
-    if (similar.length > 0) {
-      document.getElementById("similarSection").innerHTML =
-        '<div style="margin:32px 0;">'
-        + '<div class="section-header"><h2 class="section-title">Apps Like <span>' + app.name + '</span></h2><a href="apps-like.html?id=' + app.id + '" class="section-link">See all &rarr;</a></div>'
-        + '<div class="app-grid">' + similar.map(buildAppCard).join("") + '</div>'
-        + '</div>';
-    }
-
-  } catch(e) {
-    console.error(e);
-    document.getElementById("appHeader").innerHTML = '<div class="error-state"><p>Error loading app. Please refresh the page.</p></div>';
+  function fill(id, cat){
+    const el = document.getElementById(id);
+    const apps = all.filter(a => a.category?.toLowerCase() === cat).slice(0,10);
+    el.innerHTML = apps.map(mini).join('');
   }
-}
 
-// Called when user clicks a version row
-function selectVersionRow(row, idx) {
-  // Remove selected from all rows
-  document.querySelectorAll(".versions-table tbody tr").forEach(function(r) {
-    r.classList.remove("selected");
-  });
-  row.classList.add("selected");
-  var v = window._appVersions && window._appVersions[idx];
-  if (v) {
-    showSelectedVersion(v, window._appShareText, window._appIsAndroid);
-  }
-}
+  fill("catEntertainment","entertainment");
+  fill("catGames","games");
+  fill("catSocial","social");
+  fill("catMessaging","communication");
+  fill("catSecurity","security");
+  fill("catPhotography","photography");
 
-loadAppPage();
+  // ===== FEATURED =====
+  document.getElementById("featuredApps").innerHTML =
+    all.filter(a => a.featured === "yes")
+       .slice(0,8)
+       .map(buildAppCard)
+       .join("");
 
-// Patch: inject schema after app loads
-var _origLoad = loadAppPage;
-loadAppPage = async function() {
-  var id = getParam("id");
-  if (!id) return;
-  var app = await window.AppVaultDB.getAppById(id);
-  if (!app) { showRemovedApp(id); return; }
-  var versions = await window.AppVaultDB.getVersionsForApp(id);
-  injectAppSchema(app, versions);
-  await _origLoad();
-};
+});
 </script>
+
 </body>
 </html>
