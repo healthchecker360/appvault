@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Categories — Browse by Type | AppVault</title>
+  <meta name="description" content="Browse Android APK and Windows software by category. Social, Tools, Games, Music, Video, Education and more.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cat-stats-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .cat-stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text3);
+    }
+    .cat-stat-pill strong { color: var(--text); font-size: 13px; }
+    .cat-search-wrap {
+      position: relative;
+      max-width: 360px;
+      margin-bottom: 20px;
+    }
+    .cat-search-input {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      padding: 9px 14px 9px 38px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .cat-search-input:focus { border-color: var(--accent); }
+    .cat-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text3);
+      pointer-events: none;
+    }
+    .cat-grid-section { margin-bottom: 32px; }
+    .cat-section-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text3);
+      margin-bottom: 12px;
+      padding-left: 2px;
+    }
+    /* App grid inside category */
+    #categoryApps .app-card { cursor: pointer; }
+    .back-btn-row { margin-bottom: 16px; }
+
+    /* Color themes per category type */
+    .cat-card-social   { --cat-color: #e84393; }
+    .cat-card-games    { --cat-color: #fd79a8; }
+    .cat-card-video    { --cat-color: #e17055; }
+    .cat-card-music    { --cat-color: #6c5ce7; }
+    .cat-card-tools    { --cat-color: #00b894; }
+    .cat-card-security { --cat-color: #00cec9; }
+    .cat-card-office   { --cat-color: #0984e3; }
+    .cat-card-education{ --cat-color: #fdcb6e; }
+    .cat-card-shopping { --cat-color: #a29bfe; }
+    .cat-card-travel   { --cat-color: #55efc4; }
+    .cat-card-health   { --cat-color: #ff7675; }
+    .cat-card-finance  { --cat-color: #00b894; }
+    .cat-card-photo    { --cat-color: #fd79a8; }
+    .cat-card-browser  { --cat-color: #74b9ff; }
+    .cat-card-media    { --cat-color: #a29bfe; }
+
+    .category-card.themed .cat-icon-wrap {
+      background: color-mix(in srgb, var(--cat-color, var(--accent)) 12%, transparent);
+      border-color: color-mix(in srgb, var(--cat-color, var(--accent)) 30%, transparent);
+    }
+    .category-card.themed:hover {
+      border-color: var(--cat-color, var(--accent));
+      box-shadow: 0 4px 20px color-mix(in srgb, var(--cat-color, var(--accent)) 20%, transparent);
+    }
+    .category-card.themed:hover .cat-icon-wrap {
+      background: color-mix(in srgb, var(--cat-color, var(--accent)) 20%, transparent);
+      border-color: var(--cat-color, var(--accent));
+    }
+    .category-card.themed .cat-count { color: var(--text3); }
+
+    /* no results */
+    .no-cats { padding: 40px; text-align: center; color: var(--text3); font-size: 14px; }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="navSearch" placeholder="Search apps...">
+    </div>
+    <nav class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="android.html">Android</a>
+      <a href="windows.html">Windows</a>
+      <a href="categories.html" class="active">Categories</a>
+      <a href="trending.html">Trending</a>
+      <a href="wishlist.html" class="nav-bookmark-btn">&#9825; Wishlist <span class="bookmark-count" id="bookmarkCount"></span></a>
+    </nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="android.html">Android</a>
+    <a href="windows.html">Windows</a>
+    <a href="categories.html">Categories</a>
+    <a href="trending.html">Trending</a>
+    <a href="wishlist.html">&#9825; Wishlist</a>
+  </div>
+</nav>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<div class="container">
+  <div class="categories-hero">
+    <h1>Browse <span style="color:var(--accent2);">Categories</span></h1>
+    <p>Find the right app by type. All free, all safe, all versions available.</p>
+
+    <!-- Stats row -->
+    <div class="cat-stats-row" id="catStatsRow">
+      <div class="cat-stat-pill"><span>&#128230;</span><strong id="totalAppsCount">—</strong> Total Apps</div>
+      <div class="cat-stat-pill"><span>&#128193;</span><strong id="totalCatsCount">—</strong> Categories</div>
+      <div class="cat-stat-pill"><span>&#128241;</span><strong id="androidCount">—</strong> Android</div>
+      <div class="cat-stat-pill"><span>&#128187;</span><strong id="windowsCount">—</strong> Windows</div>
+    </div>
+
+    <!-- Platform filter -->
+    <div class="cat-platform-tabs">
+      <button class="cat-tab active" id="tabAll" onclick="setPlatformFilter('all')">&#127758; All Platforms</button>
+      <button class="cat-tab" id="tabAndroid" onclick="setPlatformFilter('android')">&#128241; Android</button>
+      <button class="cat-tab" id="tabWindows" onclick="setPlatformFilter('windows')">&#128187; Windows</button>
+    </div>
+
+    <!-- Category search -->
+    <div class="cat-search-wrap">
+      <span class="cat-search-icon">&#128269;</span>
+      <input class="cat-search-input" type="text" id="catFilterInput" placeholder="Filter categories...">
+    </div>
+  </div>
+
+  <!-- Category Grid -->
+  <div id="categoryGrid" class="category-grid"></div>
+
+  <div class="container"><div class="ad-slot ad-slot-leaderboard" style="margin:20px 0;">Advertisement</div></div>
+
+  <!-- Category Apps Section -->
+  <div id="categoryAppsSection" style="display:none;" class="cat-grid-section">
+    <div class="back-btn-row">
+      <button class="btn btn-secondary btn-sm" onclick="clearCategory()">&#8592; All Categories</button>
+    </div>
+    <div class="section-header">
+      <h2 class="section-title" id="categoryAppsTitle">Apps</h2>
+      <span id="catAppCount" style="font-size:13px;color:var(--text3);"></span>
+    </div>
+    <div id="categoryApps" class="app-grid"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="sheets-loader.js"></script>
+<script src="main.js"></script>
+<script>
+var CATEGORY_META = {
+  "social":      { icon: "&#128172;", label: "Social Media",       theme: "cat-card-social"   },
+  "tools":       { icon: "&#128295;", label: "Tools & Utilities",   theme: "cat-card-tools"    },
+  "games":       { icon: "&#127918;", label: "Games",               theme: "cat-card-games"    },
+  "video":       { icon: "&#127909;", label: "Video & Media",       theme: "cat-card-video"    },
+  "music":       { icon: "&#127911;", label: "Music & Audio",       theme: "cat-card-music"    },
+  "education":   { icon: "&#128218;", label: "Education",           theme: "cat-card-education"},
+  "security":    { icon: "&#128737;", label: "Security & VPN",      theme: "cat-card-security" },
+  "office":      { icon: "&#128196;", label: "Office & Work",       theme: "cat-card-office"   },
+  "shopping":    { icon: "&#128722;", label: "Shopping",            theme: "cat-card-shopping" },
+  "travel":      { icon: "&#9992;",   label: "Travel & Maps",       theme: "cat-card-travel"   },
+  "health":      { icon: "&#10084;",  label: "Health & Fitness",    theme: "cat-card-health"   },
+  "finance":     { icon: "&#128184;", label: "Finance",             theme: "cat-card-finance"  },
+  "photography": { icon: "&#128247;", label: "Photography",         theme: "cat-card-photo"    },
+  "browser":     { icon: "&#127758;", label: "Browsers",            theme: "cat-card-browser"  },
+  "media":       { icon: "&#127902;", label: "Media Players",       theme: "cat-card-media"    },
+  "communication":{ icon:"&#128222;", label: "Communication",       theme: "cat-card-social"   },
+  "utilities":   { icon: "&#9881;",   label: "Utilities",           theme: "cat-card-tools"    },
+  "entertainment":{ icon:"&#127917;", label: "Entertainment",       theme: "cat-card-games"    },
+  "news":        { icon: "&#128240;", label: "News & Magazine",     theme: "cat-card-media"    },
+  "sports":      { icon: "&#127968;", label: "Sports",              theme: "cat-card-health"   }
+};
+
+var _allApps = [];
+var _currentPlatform = "all";
+var _currentCatFilter = "";
+
+async function loadCategories() {
+  _allApps = await window.AppVaultDB.getApps();
+
+  // Update stats
+  var androidApps = _allApps.filter(function(a){ return (a.platform||"android").toLowerCase() === "android"; });
+  var windowsApps = _allApps.filter(function(a){ return (a.platform||"").toLowerCase() === "windows"; });
+  document.getElementById("totalAppsCount").textContent = _allApps.length;
+  document.getElementById("androidCount").textContent   = androidApps.length;
+  document.getElementById("windowsCount").textContent   = windowsApps.length;
+
+  renderCategoryGrid();
+}
+
+function renderCategoryGrid() {
+  var filteredApps = _allApps.filter(function(a) {
+    if (_currentPlatform === "android") return (a.platform||"android").toLowerCase() === "android";
+    if (_currentPlatform === "windows") return (a.platform||"").toLowerCase() === "windows";
+    return true;
+  });
+
+  var catCounts = {};
+  filteredApps.forEach(function(a) {
+    if (a.category) {
+      catCounts[a.category.toLowerCase()] = (catCounts[a.category.toLowerCase()] || 0) + 1;
+    }
+  });
+
+  var cats = Object.keys(catCounts);
+  if (cats.length === 0) {
+    cats = Object.keys(CATEGORY_META);
+    cats.forEach(function(c) { catCounts[c] = 0; });
+  }
+
+  // Sort by count desc
+  cats.sort(function(a, b) { return (catCounts[b]||0) - (catCounts[a]||0); });
+
+  document.getElementById("totalCatsCount").textContent = cats.length;
+
+  // Apply filter
+  var filterQ = _currentCatFilter.toLowerCase();
+  if (filterQ) {
+    cats = cats.filter(function(c) {
+      var meta = CATEGORY_META[c];
+      var label = meta ? meta.label.toLowerCase() : c;
+      return label.indexOf(filterQ) > -1 || c.indexOf(filterQ) > -1;
+    });
+  }
+
+  if (cats.length === 0) {
+    document.getElementById("categoryGrid").innerHTML = '<div class="no-cats">No categories match &ldquo;' + _currentCatFilter + '&rdquo;</div>';
+    return;
+  }
+
+  var html = cats.map(function(cat) {
+    var meta  = CATEGORY_META[cat] || { icon: "&#128230;", label: cat.charAt(0).toUpperCase() + cat.slice(1), theme: "" };
+    var count = catCounts[cat] || 0;
+    return '<div class="category-card themed ' + (meta.theme || "") + '" '
+      + 'onclick="loadCategoryApps(\'' + cat + '\',\'' + meta.label + '\')" '
+      + 'title="' + meta.label + ': ' + count + ' apps">'
+      + '<div class="cat-icon-wrap">' + meta.icon + '</div>'
+      + '<div class="cat-name">' + meta.label + '</div>'
+      + '<div class="cat-count">' + count + ' app' + (count !== 1 ? "s" : "") + '</div>'
+      + '</div>';
+  }).join("");
+
+  document.getElementById("categoryGrid").innerHTML = html;
+}
+
+function setPlatformFilter(platform) {
+  _currentPlatform = platform;
+  document.querySelectorAll(".cat-tab").forEach(function(t) { t.classList.remove("active"); });
+  document.getElementById("tab" + platform.charAt(0).toUpperCase() + platform.slice(1)).classList.add("active");
+  renderCategoryGrid();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var input = document.getElementById("catFilterInput");
+  if (input) {
+    input.addEventListener("input", function() {
+      _currentCatFilter = input.value.trim();
+      renderCategoryGrid();
+    });
+  }
+});
+
+async function loadCategoryApps(cat, label) {
+  document.getElementById("categoryAppsSection").style.display = "block";
+  document.getElementById("categoryAppsTitle").innerHTML = "<span>" + label + "</span> Apps";
+  showLoading("categoryApps");
+  document.getElementById("catAppCount").textContent = "";
+
+  var apps = await window.AppVaultDB.getAppsByCategory(cat);
+
+  // Filter by platform if needed
+  if (_currentPlatform !== "all") {
+    apps = apps.filter(function(a) {
+      return (a.platform||"android").toLowerCase() === _currentPlatform;
+    });
+  }
+
+  if (apps.length === 0) {
+    showEmpty("categoryApps", "No " + label + " apps yet");
+  } else {
+    document.getElementById("categoryApps").innerHTML = apps.map(buildAppCard).join("");
+    document.getElementById("catAppCount").textContent = apps.length + " apps";
+  }
+
+  document.getElementById("categoryAppsSection").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function clearCategory() {
+  document.getElementById("categoryAppsSection").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+loadCategories();
+</script>
+</body>
+</html>
