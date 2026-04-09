@@ -413,6 +413,11 @@ function renderApps(apps) {
 }
 
 loadApps();
-<script>document.addEventListener("DOMContentLoaded",function(){renderRecentlyViewed("recentlyViewedSection");});</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  loadApps();
+  renderRecentlyViewed("recentlyViewedSection");
+});
+</script>
 </body>
 </html>
