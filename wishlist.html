@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Wishlist — Saved Apps | AppVault</title>
+  <meta name="description" content="Your saved apps and wishlist on AppVault.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .wishlist-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .wishlist-empty-hint {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 24px;
+      text-align: center;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .wishlist-empty-hint .wl-icon { font-size: 52px; margin-bottom: 16px; }
+    .wishlist-empty-hint h2 { font-size: 22px; margin-bottom: 8px; }
+    .wishlist-empty-hint p { color: var(--text2); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+    .wishlist-hint-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 32px;
+    }
+    .wishlist-hint-icon { font-size: 20px; flex-shrink: 0; }
+    .wishlist-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(232,67,147,0.1);
+      border: 1px solid rgba(232,67,147,0.3);
+      border-radius: 20px;
+      font-size: 13px;
+      color: #e84393;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="navSearch" placeholder="Search apps...">
+    </div>
+    <nav class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="android.html">Android</a>
+      <a href="windows.html">Windows</a>
+      <a href="categories.html">Categories</a>
+      <a href="trending.html">Trending</a>
+      <a href="wishlist.html" class="nav-bookmark-btn active">&#10084;&#65039; Wishlist <span class="bookmark-count" id="bookmarkCount"></span></a>
+    </nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="android.html">Android</a>
+    <a href="windows.html">Windows</a>
+    <a href="categories.html">Categories</a>
+    <a href="trending.html">Trending</a>
+    <a href="wishlist.html">&#9825; Wishlist</a>
+  </div>
+</nav>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<div class="container" style="padding-top:32px;padding-bottom:60px;">
+  <div class="wishlist-hero">
+    <h1>&#10084;&#65039; My <span style="color:var(--accent2);">Wishlist</span></h1>
+    <p>Apps you've saved for later. All stored locally on your device.</p>
+  </div>
+
+  <!-- Hint: how to use bookmarks -->
+  <div class="wishlist-hint-row">
+    <div class="wishlist-hint-icon">&#9825;</div>
+    <span>Tap the <strong>&#9825;</strong> heart icon on any app card to save it here. Your wishlist is stored locally and private to you.</span>
+  </div>
+
+  <!-- Wishlist actions -->
+  <div class="wishlist-actions" id="wishlistActions" style="display:none;">
+    <span class="wishlist-count-badge" id="wishlistCountLabel">&#10084;&#65039; 0 saved apps</span>
+    <button class="btn btn-secondary btn-sm" onclick="clearAllBookmarks()">&#10005; Clear All</button>
+  </div>
+
+  <!-- App grid -->
+  <div id="wishlistApps"></div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="sheets-loader.js"></script>
+<script src="main.js"></script>
+<script>
+async function loadWishlist() {
+  var ids = Bookmarks.getAll();
+  var label = document.getElementById("wishlistCountLabel");
+  var actions = document.getElementById("wishlistActions");
+
+  if (ids.length === 0) {
+    document.getElementById("wishlistApps").innerHTML =
+      '<div class="wishlist-empty-hint">'
+      + '<div class="wl-icon">&#128148;</div>'
+      + '<h2>Your wishlist is empty</h2>'
+      + '<p>Browse apps and tap the &#9825; heart icon on any card to save apps here for quick access later.</p>'
+      + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">'
+      + '<a href="android.html" class="btn btn-primary">&#128241; Browse Android</a>'
+      + '<a href="windows.html" class="btn btn-secondary">&#128187; Browse Windows</a>'
+      + '</div></div>';
+    if (actions) actions.style.display = "none";
+    return;
+  }
+
+  if (actions) actions.style.display = "flex";
+  if (label) label.textContent = "❤️ " + ids.length + " saved app" + (ids.length !== 1 ? "s" : "");
+
+  showLoading("wishlistApps");
+
+  try {
+    var apps = await Promise.all(ids.map(function(id) {
+      return window.AppVaultDB.getAppById(id).catch(function() { return null; });
+    }));
+    apps = apps.filter(Boolean);
+
+    if (apps.length === 0) {
+      document.getElementById("wishlistApps").innerHTML =
+        '<div class="empty-state"><div class="empty-icon">&#128148;</div><h3>No apps found</h3><p>Your saved app IDs couldn\'t be loaded. They may have been removed.</p></div>';
+      return;
+    }
+
+    document.getElementById("wishlistApps").innerHTML =
+      '<div class="app-grid">' + apps.map(buildAppCard).join("") + '</div>';
+  } catch(e) {
+    showError("wishlistApps", "Could not load your saved apps.");
+  }
+}
+
+function clearAllBookmarks() {
+  if (!confirm("Remove all " + Bookmarks.count() + " saved apps from your wishlist?")) return;
+  AV.set("bookmarks", []);
+  showToast("Wishlist cleared");
+  var badge = document.getElementById("bookmarkCount");
+  if (badge) { badge.textContent = ""; badge.style.display = "none"; }
+  loadWishlist();
+}
+
+loadWishlist();
+</script>
+</body>
+</html>
