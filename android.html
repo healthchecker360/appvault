@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Android APK Free — Latest &amp; Old Versions | AppVault</title>
+  <meta name="description" content="Download free Android APK files. All categories, latest and old versions. Safe direct download links, no registration required.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ---- Android page layout extras ---- */
+    .cat-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      width: 200px;
+      flex-shrink: 0;
+    }
+    .cat-sidebar-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 0 10px 8px;
+    }
+    .cat-sidebar-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      border: none;
+      background: transparent;
+      color: var(--text2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      font-family: var(--font-body);
+      text-align: left;
+      width: 100%;
+    }
+    .cat-sidebar-btn:hover  { background: var(--bg3); color: var(--text); }
+    .cat-sidebar-btn.active { background: var(--bg4); color: var(--accent2); }
+    .cat-sidebar-btn .csi   { font-size: 16px; width: 22px; text-align: center; }
+    .cat-sidebar-btn .csn   { flex: 1; }
+    .cat-sidebar-btn .csc   { font-size: 11px; color: var(--text3); background: var(--bg4); border-radius: 20px; padding: 1px 6px; }
+    .cat-sidebar-btn.active .csc { background: rgba(108,92,231,.2); color: var(--accent2); }
+
+    .app-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .app-main { flex: 1; min-width: 0; }
+
+    /* App list view (Uptodown style row) */
+    .app-list { display: flex; flex-direction: column; gap: 0; }
+    .app-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .15s;
+      border-bottom: 1px solid var(--border);
+    }
+    .app-row:last-child { border-bottom: none; }
+    .app-row:hover { background: var(--bg3); }
+    .app-row-icon { width: 52px; height: 52px; border-radius: 12px; object-fit: cover; background: var(--bg3); flex-shrink: 0; }
+    .app-row-icon-fallback { width: 52px; height: 52px; border-radius: 12px; background: var(--bg4); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 20px; font-weight: 800; color: var(--accent2); flex-shrink: 0; }
+    .app-row-info { flex: 1; min-width: 0; }
+    .app-row-name { font-family: var(--font-head); font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+    .app-row-dev  { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+    .app-row-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+    .app-row-dl   { color: var(--text3); }
+    .app-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+    .app-row-rating { font-size: 13px; color: var(--warning); font-weight: 600; }
+    .app-row-btn { padding: 6px 14px; border-radius: var(--radius); background: var(--success); color: #000; font-size: 12px; font-weight: 700; border: none; cursor: pointer; font-family: var(--font-body); transition: opacity .15s; }
+    .app-row-btn:hover { opacity: .85; }
+
+    /* View toggle */
+    .view-toggle { display: flex; gap: 4px; }
+    .view-btn { width: 32px; height: 32px; border-radius: var(--radius); border: 1px solid var(--border2); background: transparent; color: var(--text3); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; transition: all .15s; }
+    .view-btn.active { background: var(--bg4); color: var(--text); border-color: var(--accent); }
+
+    /* Sort bar */
+    .sort-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+    .sort-label { font-size: 13px; color: var(--text3); }
+    .sort-select { background: var(--bg3); border: 1px solid var(--border2); border-radius: var(--radius); color: var(--text); font-size: 13px; padding: 6px 10px; outline: none; font-family: var(--font-body); cursor: pointer; }
+
+    /* Featured banner strip */
+    .feat-strip { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 24px; scrollbar-width: none; }
+    .feat-strip::-webkit-scrollbar { display: none; }
+    .feat-strip-card {
+      flex-shrink: 0;
+      width: 160px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+    .feat-strip-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .feat-strip-icon { width: 48px; height: 48px; border-radius: 12px; object-fit: cover; margin-bottom: 8px; background: var(--bg3); display: block; }
+    .feat-strip-icon-fb { width: 48px; height: 48px; border-radius: 12px; background: var(--bg4); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--accent2); margin-bottom: 8px; }
+    .feat-strip-name { font-size: 12px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .feat-strip-cat  { font-size: 11px; color: var(--text3); }
+    .feat-strip-badge { position: absolute; top: 8px; right: 8px; background: var(--accent); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 4px; text-transform: uppercase; }
+
+    @media (max-width: 768px) {
+      .cat-sidebar { display: none; }
+      .app-layout  { display: block; }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo"><div class="logo-icon">A</div>App<span>Vault</span></a>
+    <div class="navbar-search"><span class="search-icon">&#128269;</span><input type="text" id="navSearch" placeholder="Search apps..."></div>
+    <nav class="navbar-nav">
+      <a href="index.html">Home</a>
+      <a href="android.html" class="active">Android</a>
+      <a href="windows.html">Windows</a>
+      <a href="categories.html">Categories</a>
+      <a href="trending.html">Trending</a>
+      <a href="request.html" style="background:var(--accent);color:#fff;border-radius:var(--radius);padding:6px 14px;font-size:13px;">&#128232; Request App</a>
+    </nav>
+    <button class="navbar-menu-btn" id="menuBtn">&#9776;</button>
+  </div>
+  <div class="navbar-mobile" id="mobileMenu">
+    <a href="index.html">Home</a><a href="android.html" class="active">Android</a><a href="windows.html">Windows</a>
+    <a href="categories.html">Categories</a><a href="trending.html">Trending</a><a href="request.html">Request App</a>
+  <a href="wishlist.html">&#9825; Wishlist</a></div>
+</nav>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<div class="container" style="padding-top:20px;">
+  <!-- Page title -->
+  <div style="margin-bottom:20px;">
+    <h1 style="font-size:26px;margin-bottom:4px;">&#128241; Android APK Downloads</h1>
+    <p style="color:var(--text3);font-size:14px;">Free APK files for all Android devices. Latest &amp; old versions available.</p>
+  </div>
+
+  <!-- Featured strip -->
+  <div id="featuredStrip" class="feat-strip"></div>
+
+  <!-- Mobile category filter (horizontal scroll on small screens) -->
+  <div class="filter-bar" id="mobileCatBar" style="margin-bottom:20px;"></div>
+
+  <div class="app-layout">
+    <!-- SIDEBAR categories -->
+    <div class="cat-sidebar" id="catSidebar">
+      <div class="cat-sidebar-title">&#128196; Categories</div>
+      <button class="cat-sidebar-btn active" data-cat="all" onclick="filterCat('all',this)">
+        <span class="csi">&#128241;</span><span class="csn">All Apps</span><span class="csc" id="cnt-all">0</span>
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="app-main">
+      <div class="ad-slot ad-slot-leaderboard">Advertisement</div>
+
+      <!-- Sort + view toggle bar -->
+      <div class="sort-bar">
+        <div style="font-size:13px;color:var(--text3);">Showing <strong id="showCount" style="color:var(--text);">0</strong> apps</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <select class="sort-select" id="sortSelect" onchange="sortApps(this.value)">
+            <option value="default">Default</option>
+            <option value="name">A–Z</option>
+            <option value="rating">Top Rated</option>
+            <option value="downloads">Most Downloaded</option>
+            <option value="newest">Newest First</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="viewGrid" title="Grid view" onclick="setView('grid',this)">&#9633;</button>
+            <button class="view-btn" id="viewList" title="List view" onclick="setView('list',this)">&#9776;</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="appGrid" class="app-grid"></div>
+      <div id="appList" class="app-list" style="display:none;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container"><div class="ad-slot ad-slot-leaderboard">Advertisement</div></div>
+
+<!-- RECENTLY VIEWED -->
+<div class="container home-section" id="recentlyViewedSection" style="display:none;"></div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <div class="footer-legal">&copy; <span id="footerYear"></span> AppVault. All logos belong to respective owners. We do not host copyrighted content. All links point to third-party storage.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="sheets-loader.js"></script>
+<script src="main.js"></script>
+<script>
+var CAT_META = {
+  "all":           { icon:"&#128241;", label:"All Apps" },
+  "social":        { icon:"&#128172;", label:"Social" },
+  "tools":         { icon:"&#128296;", label:"Tools" },
+  "games":         { icon:"&#127918;", label:"Games" },
+  "video":         { icon:"&#127916;", label:"Video" },
+  "music":         { icon:"&#127925;", label:"Music" },
+  "education":     { icon:"&#128218;", label:"Education" },
+  "productivity":  { icon:"&#128203;", label:"Productivity" },
+  "security":      { icon:"&#128274;", label:"Security" },
+  "communication": { icon:"&#128222;", label:"Communication" },
+  "entertainment": { icon:"&#127902;", label:"Entertainment" },
+  "sports":        { icon:"&#9917;",   label:"Sports" },
+  "travel":        { icon:"&#9992;",   label:"Travel" },
+  "finance":       { icon:"&#128176;", label:"Finance" },
+  "health":        { icon:"&#10084;",  label:"Health" },
+  "shopping":      { icon:"&#128717;", label:"Shopping" },
+  "utilities":     { icon:"&#128295;", label:"Utilities" },
+  "photography":   { icon:"&#128247;", label:"Photography" },
+  "news":          { icon:"&#128240;", label:"News" }
+};
+
+var allApps = [];
+var currentCat = "all";
+var currentSort = "default";
+var currentView = "grid";
+
+async function loadApps() {
+  showLoading("appGrid");
+  try {
+    var apps = await window.AppVaultDB.getAppsByPlatform("android");
+    allApps = apps;
+    buildSidebar(apps);
+    buildMobileCatBar(apps);
+    buildFeaturedStrip(apps);
+
+    // Read URL params — supports ?cat=games&sort=newest&filter=featured
+    var urlCat    = getParam("cat");
+    var urlSort   = getParam("sort");
+    var urlFilter = getParam("filter");
+
+    // Apply filter=featured from homepage
+    if (urlFilter === "featured") {
+      apps = apps.filter(function(a){ return a.featured === "yes"; });
+      currentCat = "all";
+    }
+
+    // Apply cat param
+    if (urlCat && urlCat !== "all") {
+      currentCat = urlCat;
+      apps = apps.filter(function(a){ return a.category === urlCat; });
+      // highlight sidebar button
+      setTimeout(function(){
+        var btn = document.querySelector(".cat-sidebar-btn[data-cat='" + urlCat + "']");
+        if (btn) {
+          document.querySelectorAll(".cat-sidebar-btn").forEach(function(b){ b.classList.remove("active"); });
+          document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+          btn.classList.add("active");
+          document.querySelectorAll("[data-cat='" + urlCat + "']").forEach(function(b){ b.classList.add("active"); });
+        }
+      }, 100);
+    }
+
+    // Apply sort param
+    if (urlSort) {
+      currentSort = urlSort;
+      var sel = document.getElementById("sortSelect");
+      if (sel) sel.value = urlSort;
+      apps = applySorting(apps);
+    }
+
+    renderApps(apps);
+  } catch(e) { showError("appGrid"); }
+}
+
+function getCatMeta(cat) {
+  var k = (cat||"").toLowerCase();
+  return CAT_META[k] || { icon:"&#128196;", label: cat };
+}
+
+function buildSidebar(apps) {
+  var counts = {};
+  apps.forEach(function(a) {
+    var c = (a.category||"other").toLowerCase();
+    counts[c] = (counts[c]||0) + 1;
+  });
+  document.getElementById("cnt-all").textContent = apps.length;
+
+  var sidebar = document.getElementById("catSidebar");
+  var existing = sidebar.innerHTML;
+  var extraBtns = "";
+  Object.keys(counts).sort().forEach(function(cat) {
+    var m = getCatMeta(cat);
+    extraBtns += '<button class="cat-sidebar-btn" data-cat="'+cat+'" onclick="filterCat(\''+cat+'\',this)">'
+      + '<span class="csi">'+m.icon+'</span>'
+      + '<span class="csn">'+m.label+'</span>'
+      + '<span class="csc">'+counts[cat]+'</span>'
+      + '</button>';
+  });
+  sidebar.innerHTML = existing + extraBtns;
+}
+
+function buildMobileCatBar(apps) {
+  var counts = {};
+  apps.forEach(function(a){ var c=(a.category||"other").toLowerCase(); counts[c]=(counts[c]||0)+1; });
+  var bar = document.getElementById("mobileCatBar");
+  var html = '<button class="filter-btn active" data-cat="all" onclick="filterCat(\'all\',this)">All ('+apps.length+')</button>';
+  Object.keys(counts).sort().forEach(function(cat){
+    var m = getCatMeta(cat);
+    html += '<button class="filter-btn" data-cat="'+cat+'" onclick="filterCat(\''+cat+'\',this)">'+m.icon+' '+m.label+' ('+counts[cat]+')</button>';
+  });
+  bar.innerHTML = html;
+}
+
+function buildFeaturedStrip(apps) {
+  var featured = apps.filter(function(a){ return (a.featured||"").toLowerCase()==="yes"; }).slice(0,8);
+  if (!featured.length) { document.querySelector(".feat-strip").style.display="none"; return; }
+  var html = featured.map(function(app) {
+    var iconUrl = app.icon ? app.icon.trim() : "";
+    var iconHTML = iconUrl
+      ? '<img class="feat-strip-icon" src="'+iconUrl+'" alt="'+app.name+'" onerror="this.style.display=\'none\';var f=document.createElement(\'div\');f.className=\'feat-strip-icon-fb\';f.textContent=\''+(app.name||"?").charAt(0)+'\';this.parentNode.insertBefore(f,this);">'
+      : '<div class="feat-strip-icon-fb">'+(app.name||"?").charAt(0)+'</div>';
+    return '<div class="feat-strip-card" onclick="window.location.href=\'app.html?id='+app.id+'\'">'
+      + '<span class="feat-strip-badge">&#11088;</span>'
+      + iconHTML
+      + '<div class="feat-strip-name">'+app.name+'</div>'
+      + '<div class="feat-strip-cat">'+(app.category||"App")+'</div>'
+      + '</div>';
+  }).join("");
+  document.getElementById("featuredStrip").innerHTML = html;
+}
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll(".cat-sidebar-btn").forEach(function(b){ b.classList.remove("active"); });
+  document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+  document.querySelectorAll("[data-cat='"+cat+"']").forEach(function(b){ b.classList.add("active"); });
+  var filtered = cat==="all" ? allApps : allApps.filter(function(a){ return (a.category||"").toLowerCase()===cat; });
+  renderApps(applySorting(filtered));
+}
+
+function sortApps(val) {
+  currentSort = val;
+  var cat = currentCat;
+  var filtered = cat==="all" ? allApps : allApps.filter(function(a){ return (a.category||"").toLowerCase()===cat; });
+  renderApps(applySorting(filtered));
+}
+
+function applySorting(apps) {
+  var arr = apps.slice();
+  if (currentSort==="name")      return arr.sort(function(a,b){ return (a.name||"").localeCompare(b.name||""); });
+  if (currentSort==="rating")    return arr.sort(function(a,b){ return parseFloat(b.rating||0)-parseFloat(a.rating||0); });
+  if (currentSort==="downloads") return arr.sort(function(a,b){ return (parseInt((b.downloads||"0").replace(/\D/g,""))||0)-(parseInt((a.downloads||"0").replace(/\D/g,""))||0); });
+  if (currentSort==="newest")    return arr.sort(function(a,b){ return new Date(b.added_date)-new Date(a.added_date); });
+  return arr;
+}
+
+function setView(v, btn) {
+  currentView = v;
+  document.querySelectorAll(".view-btn").forEach(function(b){ b.classList.remove("active"); });
+  btn.classList.add("active");
+  document.getElementById("appGrid").style.display = v==="grid" ? "" : "none";
+  document.getElementById("appList").style.display = v==="list" ? "" : "none";
+}
+
+function buildListRow(app) {
+  var iconUrl = app.icon ? app.icon.trim() : "";
+  var iconHTML = iconUrl
+    ? '<img class="app-row-icon" src="'+iconUrl+'" alt="'+app.name+'" onerror="this.style.display=\'none\';var f=document.createElement(\'div\');f.className=\'app-row-icon-fallback\';f.textContent=\''+(app.name||"?").charAt(0)+'\';this.parentNode.insertBefore(f,this);">'
+    : '<div class="app-row-icon-fallback">'+(app.name||"?").charAt(0)+'</div>';
+  var m = getCatMeta((app.category||"").toLowerCase());
+  return '<div class="app-row" onclick="window.location.href=\'app.html?id='+app.id+'\'">'
+    + iconHTML
+    + '<div class="app-row-info">'
+    + '<div class="app-row-name">'+app.name+'</div>'
+    + '<div class="app-row-dev">'+(app.developer||"Unknown Developer")+'</div>'
+    + '<div class="app-row-meta">'
+    + '<span class="badge badge-android" style="font-size:11px;">Android</span>'
+    + '<span style="color:var(--text3);font-size:12px;">'+m.icon+' '+(app.category||"")+'</span>'
+    + (app.downloads?'<span class="app-row-dl">&#8595; '+app.downloads+'</span>':'')
+    + '</div>'
+    + '</div>'
+    + '<div class="app-row-right">'
+    + (app.rating?'<div class="app-row-rating">&#9733; '+parseFloat(app.rating).toFixed(1)+'</div>':'')
+    + '<button class="app-row-btn" onclick="event.stopPropagation();window.location.href=\'app.html?id='+app.id+'\'">Download</button>'
+    + '</div>'
+    + '</div>';
+}
+
+function renderApps(apps) {
+  document.getElementById("showCount").textContent = apps.length;
+  if (!apps.length) { showEmpty("appGrid","No apps found in this category"); document.getElementById("appList").innerHTML=""; return; }
+  var gridHTML = "";
+  var listHTML = "";
+  apps.forEach(function(app,i){
+    gridHTML += buildAppCard(app);
+    listHTML += buildListRow(app);
+    if ((i+1)%8===0) {
+      var adDiv = '<div class="ad-slot ad-slot-banner" style="grid-column:1/-1;">Advertisement</div>';
+      gridHTML += adDiv;
+    }
+  });
+  document.getElementById("appGrid").innerHTML = gridHTML;
+  document.getElementById("appList").innerHTML = listHTML;
+}
+
+loadApps();
+<script>document.addEventListener("DOMContentLoaded",function(){renderRecentlyViewed("recentlyViewedSection");});</script>
+</body>
+</html>
