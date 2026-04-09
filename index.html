@@ -376,8 +376,8 @@ function buildCatAppRow(app) {
   var initial = (app.name || "?").charAt(0).toUpperCase();
   var iconHTML = iconUrl
     ? '<img class="cat-app-icon" src="' + iconUrl + '" alt="' + app.name + '" loading="lazy" ' +
-      'onerror="this.style.display='none';var f=document.createElement('div');' +
-      'f.className='cat-app-icon-fb';f.textContent='' + initial + '';this.parentNode.insertBefore(f,this);">' 
+     'onerror="this.style.display=\'none\';var f=document.createElement(\'div\');' +
+      'f.className=\'cat-app-icon-fb\';f.textContent=\'' + initial + '\';this.parentNode.insertBefore(f,this);">'
     : '<div class="cat-app-icon-fb">' + initial + '</div>';
   var rating = app.rating ? '<span class="car-rating">&#9733; ' + parseFloat(app.rating).toFixed(1) + '</span>' : '';
   return '<a href="app.html?id=' + app.id + '" class="cat-app-row">' +
